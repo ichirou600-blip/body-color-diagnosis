@@ -9,6 +9,7 @@
 |---|---|
 | [`docs/SPEC.md`](docs/SPEC.md) | 要件定義書・実装計画書 v1。**実装判断はすべてここに従う** |
 | [`docs/STEP0_SETUP.md`](docs/STEP0_SETUP.md) | Codemagic → TestFlight を通すための Apple / Codemagic 側の手順 |
+| [`docs/DATA_SCHEMA.md`](docs/DATA_SCHEMA.md) | `assets/` の静的JSONのキー名と検証ルール |
 | [`CLAUDE.md`](CLAUDE.md) | Claude Code 向けの作業ルール |
 
 ## 開発
@@ -24,4 +25,4 @@ Flutter 3.47.0（CI で固定）。
 
 ## 進捗
 
-`docs/SPEC.md` §9 のステップを順に進める。現在は **Step 0**（ビルド・配信パイプラインの貫通）。
+`docs/SPEC.md` §9 のステップを順に進める。現在は **Step 1**（静的JSON読込基盤＋プロフィール保存）。Step 0 はコード側が完了し、Apple / Codemagic 側の操作待ち。

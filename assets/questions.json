@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "_note": "仮データ。構造確認用の最小サンプルであり、本データではない。docs/DATA_SCHEMA.md に沿ってチャット側で作成した本データに丸ごと差し替える。 本データは personal_color 10問・kokkaku 10問。ここには例として各1問だけ入れてある。",
+  "personal_color": [
+    {
+      "id": "pc_q01",
+      "text": "（仮）手首の内側の血管の色に近いのは？",
+      "choices": [
+        { "id": "a", "text": "緑っぽい", "scores": { "spring": 1, "autumn": 1 } },
+        { "id": "b", "text": "青っぽい", "scores": { "summer": 1, "winter": 1 } }
+      ]
+    }
+  ],
+  "kokkaku": [
+    {
+      "id": "kk_q01",
+      "text": "（仮）手首の骨の出かたに近いのは？",
+      "choices": [
+        { "id": "a", "text": "あまり目立たない",   "scores": { "straight": 1 } },
+        { "id": "b", "text": "細くて丸い",         "scores": { "wave": 1 } },
+        { "id": "c", "text": "はっきりしている",   "scores": { "natural": 1 } }
+      ]
+    }
+  ]
+}

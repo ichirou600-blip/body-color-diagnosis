@@ -11,8 +11,8 @@
 
 - `docs/SPEC.md` §9 の実装ステップを **1ステップずつ** 進める。指示されていない先のステップを先回りして作らない
 - 各ステップは §9 の「完了条件」を満たしたら止めて報告する
-- 現在のステップ: **Step 0（Flutter雛形 → Codemagic → TestFlight貫通）**
-  - コード側は完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
+- 現在のステップ: **Step 1（静的JSON読込基盤＋プロフィール保存）**
+  - Step 0 はコード側完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
 
 ## 絶対に破らないルール
 
@@ -49,6 +49,8 @@ flutter test
 `assets/` 配下の以下はチャット側で作成してから配置する。Claude Code 側で中身を勝手に生成・水増ししない（作成中の仮データを置く場合は仮であることを明示する）:
 
 `color_master.json` / `type_attributes.json` / `pc_x_kokkaku.json` / `compatibility.json` / `questions.json`
+
+**JSONのキー名と検証ルールは `docs/DATA_SCHEMA.md` で確定済み。**現在 `assets/` にあるのは構造確認用の仮データで、本データは同じ形のまま丸ごと差し替える（コード変更不要）。
 
 ## 掛け合わせエンジン
 

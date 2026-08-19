@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "_note": "仮データ。構造確認用の最小サンプルであり、本データではない。docs/DATA_SCHEMA.md に沿ってチャット側で作成した本データに丸ごと差し替える。 本データは40色。",
+  "colors": [
+    { "id": "coral_pink",   "name": "コーラルピンク",   "hex": "#FF8B7B", "pc_types": ["spring"] },
+    { "id": "powder_blue",  "name": "パウダーブルー",   "hex": "#A8C8E0", "pc_types": ["summer"] },
+    { "id": "terracotta",   "name": "テラコッタ",       "hex": "#B7643C", "pc_types": ["autumn"] },
+    { "id": "royal_blue",   "name": "ロイヤルブルー",   "hex": "#1F4E9C", "pc_types": ["winter"] },
+    { "id": "off_white",    "name": "オフホワイト",     "hex": "#F5F0E6", "pc_types": ["spring", "autumn"] }
+  ]
+}

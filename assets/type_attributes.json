@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "_note": "仮データ。構造確認用の最小サンプルであり、本データではない。docs/DATA_SCHEMA.md に沿ってチャット側で作成した本データに丸ごと差し替える。 description は本データで書き起こす。",
+  "personal_colors": [
+    { "id": "spring", "color_ids": ["coral_pink", "off_white"], "materials": ["ツヤのある素材"], "keywords": ["明るい", "クリア"], "description": "（仮）明るくクリアな色が似合うタイプ。" },
+    { "id": "summer", "color_ids": ["powder_blue"],             "materials": ["マットな素材"],   "keywords": ["やわらか", "涼やか"], "description": "（仮）やわらかく涼やかな色が似合うタイプ。" },
+    { "id": "autumn", "color_ids": ["terracotta", "off_white"], "materials": ["起毛素材"],       "keywords": ["深み", "あたたかい"], "description": "（仮）深みのあるあたたかい色が似合うタイプ。" },
+    { "id": "winter", "color_ids": ["royal_blue"],              "materials": ["光沢のある素材"], "keywords": ["鮮やか", "コントラスト"], "description": "（仮）鮮やかでコントラストのある色が似合うタイプ。" }
+  ],
+  "kokkaku": [
+    { "id": "straight", "color_ids": [], "materials": ["ハリのある素材"],     "keywords": ["シンプル", "Iライン"], "description": "（仮）シンプルで直線的なシルエットが似合うタイプ。" },
+    { "id": "wave",     "color_ids": [], "materials": ["やわらかい素材"],     "keywords": ["曲線", "Xライン"],   "description": "（仮）やわらかい素材と曲線的なシルエットが似合うタイプ。" },
+    { "id": "natural",  "color_ids": [], "materials": ["ざっくりした素材"],   "keywords": ["ラフ", "Iライン"],   "description": "（仮）ラフで抜け感のあるシルエットが似合うタイプ。" }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "_note": "仮データ。構造確認用の最小サンプルであり、本データではない。docs/DATA_SCHEMA.md に沿ってチャット側で作成した本データに丸ごと差し替える。 本データは 4×3 = 12 件すべて。ここには例として2件だけ入れてある。",
+  "entries": [
+    { "pc_type": "spring", "kokkaku_type": "straight", "style_text": "（仮）明るい色をシンプルなシルエットで。" },
+    { "pc_type": "summer", "kokkaku_type": "wave",     "style_text": "（仮）やわらかい色と素材を重ねて。" }
+  ]
+}

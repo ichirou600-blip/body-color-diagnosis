@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "_note": "仮データ。構造確認用の最小サンプルであり、本データではない。docs/DATA_SCHEMA.md に沿ってチャット側で作成した本データに丸ごと差し替える。 本データは順序なしペア78件。ここには例として2件だけ入れてある。",
+  "entries": [
+    { "zodiac_a": "aries", "zodiac_b": "aries",  "text": "（仮）似た者同士のふたり。" },
+    { "zodiac_a": "aries", "zodiac_b": "taurus", "text": "（仮）テンポの違いが刺激になるふたり。" }
+  ]
+}
