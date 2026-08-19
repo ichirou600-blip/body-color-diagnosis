@@ -1,0 +1,77 @@
+# Codemagic CI/CD 設定 — ラキカラ
+#
+# 事前準備は docs/STEP0_SETUP.md を参照。
+# 「TODO:」が付いた箇所は Codemagic / App Store Connect 側の設定名に置き換えること。
+
+definitions:
+  flutter_env: &flutter_env
+    # SDK は固定する。上げるときは意図的に上げる（CI だけ勝手に新しくならないように）
+    flutter: 3.47.0
+    xcode: latest
+    cocoapods: default
+
+workflows:
+  ios-testflight:
+    name: iOS - TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      # TODO: Codemagic の Teams > Integrations > App Store Connect で登録したキー名に置き換える
+      app_store_connect: RAKIKARA_ASC_KEY
+    environment:
+      <<: *flutter_env
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.ichirou600.rakikara
+    scripts:
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Flutter analyze
+        script: flutter analyze
+      - name: Flutter unit tests
+        script: flutter test
+      - name: Install CocoaPods dependencies
+        script: find . -name "Podfile" -execdir pod install \;
+      - name: Apply provisioning profiles to Xcode project
+        script: xcode-project use-profiles
+      - name: Build ipa
+        script: |
+          flutter build ipa --release \
+            --build-number=$BUILD_NUMBER \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - flutter_drive.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        # Step 0 では内部テスターにだけ配る。審査提出は Step 9。
+        submit_to_app_store: false
+      email:
+        recipients:
+          # TODO: 通知先メールアドレスを設定する
+          - your-address@example.com
+        notify:
+          success: true
+          failure: true
+
+  android-build:
+    name: Android - build check
+    instance_type: linux_x2
+    max_build_duration: 45
+    environment:
+      <<: *flutter_env
+    scripts:
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Flutter analyze
+        script: flutter analyze
+      - name: Flutter unit tests
+        script: flutter test
+      # Step 0 は「ビルドが通ること」の確認のみ。
+      # リリース署名（keystore）と Play への配信は Step 9 で追加する。
+      - name: Build APK
+        script: flutter build apk --release --build-number=$BUILD_NUMBER
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
