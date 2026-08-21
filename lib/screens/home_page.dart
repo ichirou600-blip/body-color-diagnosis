@@ -7,6 +7,7 @@ import '../logic/personal_color_judge.dart';
 import '../models/enums.dart';
 import '../models/master_models.dart';
 import '../models/user_profile.dart';
+import 'compatibility_page.dart';
 import 'diagnosis_page.dart';
 import 'kokkaku_result_page.dart';
 import 'personal_color_result_page.dart';
@@ -161,6 +162,19 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.auto_awesome),
               label: const Text('今日のおすすめを見る'),
             ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => CompatibilityPage(
+                    masters: masters,
+                    myZodiac: profile.zodiac,
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.favorite_border),
+              label: const Text('相性をしらべる'),
+            ),
             const SizedBox(height: 24),
             StyleMatchCard(
               masters: masters,
@@ -203,10 +217,6 @@ class HomePage extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 32),
-            Text(
-              '相性診断は順次追加されます。',
-              style: theme.textTheme.bodySmall,
-            ),
             if (missing.isNotEmpty) ...[
               const SizedBox(height: 24),
               const Divider(),

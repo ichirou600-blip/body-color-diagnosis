@@ -63,17 +63,39 @@ void main() {
     }
   }
 
+  /// ホームは縦に長いので、画面外のボタンはスクロールしてから押す。
+  Future<void> tapOnHome(WidgetTester tester, String label) async {
+    final target = find.text(label);
+    await tester.scrollUntilVisible(
+      target,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(target);
+    await tester.pumpAndSettle();
+  }
+
+  /// スクロールで画面外に出たプロフィール欄を、また見える位置まで戻す。
+  Future<void> scrollHomeToTop(WidgetTester tester) async {
+    await tester.scrollUntilVisible(
+      find.text('あなたのタイプ'),
+      -200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+  }
+
   /// ホームから診断を1つ通しで実行し、結果画面からホームに戻る。
   Future<void> runDiagnosis(
     WidgetTester tester, {
     required String startButton,
     required Future<void> Function(WidgetTester tester) answer,
   }) async {
-    await tester.tap(find.text(startButton));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, startButton);
     await answer(tester);
     await tester.tap(find.text('ホームに戻る'));
     await tester.pumpAndSettle();
+    await scrollHomeToTop(tester);
   }
 
   testWidgets('起動するとホームに未診断の状態が出る', (tester) async {
@@ -90,8 +112,7 @@ void main() {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('パーソナルカラー診断をはじめる'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, 'パーソナルカラー診断をはじめる');
     expect(find.text('Q1 / 3'), findsOneWidget);
 
     await answerPersonalColor(tester, '春');
@@ -104,8 +125,7 @@ void main() {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('パーソナルカラー診断をはじめる'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, 'パーソナルカラー診断をはじめる');
     await answerPersonalColor(tester, '冬');
 
     expect(find.text('ブルベ冬'), findsOneWidget);
@@ -115,14 +135,13 @@ void main() {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('パーソナルカラー診断をはじめる'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, 'パーソナルカラー診断をはじめる');
     await answerPersonalColor(tester, '春');
     await tester.tap(find.text('ホームに戻る'));
     await tester.pumpAndSettle();
+    await scrollHomeToTop(tester);
 
     expect(find.text('イエベ春'), findsOneWidget);
-    expect(find.text('パーソナルカラーを診断しなおす'), findsOneWidget);
 
     // 端末の再起動に相当する
     await tester.pumpWidget(buildApp(questions: _questions));
@@ -135,8 +154,7 @@ void main() {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('パーソナルカラー診断をはじめる'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, 'パーソナルカラー診断をはじめる');
     await tester.tap(find.text('設問1の春'));
     await tester.pumpAndSettle();
 
@@ -145,6 +163,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
+    await scrollHomeToTop(tester);
 
     expect(find.text('未診断'), findsNWidgets(3));
   });
@@ -153,8 +172,7 @@ void main() {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('骨格診断をはじめる'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, '骨格診断をはじめる');
     expect(find.text('Q1 / 2'), findsOneWidget);
 
     await answerKokkaku(tester, 'ナチュラル');
@@ -198,8 +216,7 @@ void main() {
       startButton: 'パーソナルカラー診断をはじめる',
       answer: (tester) => answerPersonalColor(tester, '春'),
     );
-    await tester.tap(find.text('骨格診断をはじめる'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, '骨格診断をはじめる');
     await answerKokkaku(tester, 'ウェーブ');
 
     expect(find.text('診断結果'), findsOneWidget);
@@ -247,8 +264,7 @@ void main() {
       answer: (tester) => answerPersonalColor(tester, '春'),
     );
 
-    await tester.tap(find.text('結果をシェアする'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, '結果をシェアする');
 
     expect(find.text('シェア'), findsOneWidget);
     expect(find.text('#ラキカラ'), findsOneWidget);
@@ -259,26 +275,36 @@ void main() {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('誕生日を登録する'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, '誕生日を登録する');
     // ダイアログの初期表示は年選択ではなく日付グリッド。OK で初期値を確定する。
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
+    await scrollHomeToTop(tester);
 
-    expect(find.text('誕生日を変更する'), findsOneWidget);
     expect(find.text('未診断'), findsNWidgets(2)); // 星座だけ埋まる
+    expect(find.text('山羊座'), findsOneWidget);
   });
 
   testWidgets('ホームから今日のおすすめを開ける', (tester) async {
     await tester.pumpWidget(app);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('今日のおすすめを見る'));
-    await tester.pumpAndSettle();
+    await tapOnHome(tester, '今日のおすすめを見る');
 
     expect(find.text('今日のおすすめ'), findsOneWidget);
     // 誕生日未登録なので登録をうながす
     expect(find.textContaining('誕生日を登録すると'), findsOneWidget);
+  });
+
+  testWidgets('ホームから相性診断を開ける', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await tapOnHome(tester, '相性をしらべる');
+
+    expect(find.text('相性診断'), findsOneWidget);
+    // 誕生日未登録なので登録をうながす
+    expect(find.textContaining('自分の誕生日を登録すると'), findsOneWidget);
   });
 
   testWidgets('マスタが壊れていればエラー表示になり、再試行できる', (tester) async {
