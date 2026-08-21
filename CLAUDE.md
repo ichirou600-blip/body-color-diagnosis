@@ -11,9 +11,10 @@
 
 - `docs/SPEC.md` §9 の実装ステップを **1ステップずつ** 進める。指示されていない先のステップを先回りして作らない
 - 各ステップは §9 の「完了条件」を満たしたら止めて報告する
-- 現在のステップ: **Step 7（相性診断）完了。次は Step 6（Firebase接続＋Functionsバッチ）**
+- 現在のステップ: **Step 8（広告組込）**
+  - Step 6 はコード側完了。残りは Firebase / Anthropic のアカウント操作（`docs/STEP6_SETUP.md`）
   - Step 0 はコード側完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
-  - Step 1〜5・7 完了
+  - Step 1〜7 完了
 
 ## 絶対に破らないルール
 
@@ -36,7 +37,8 @@ flutter test
 ## 技術スタック
 
 - Flutter（iOS / Android）。iOS 優先だが Android も同時に動くこと
-- Firebase: Firestore（`daily_fortune` の読み取り専用配信のみ）、Cloud Functions（毎朝5:00 JST の scheduled バッチ）
+- Firebase: Firestore（`daily_fortune` の読み取り専用配信のみ）、Cloud Functions（毎朝5:00 JST の scheduled バッチ、`functions/`）
+- Cloud Functions を変更したら `cd functions && npm run typecheck` を通す（CI でも走る）
 - CI/CD: Codemagic → TestFlight
 - 広告: AdMob（バナー＋ネイティブ。リワードは P1）
 

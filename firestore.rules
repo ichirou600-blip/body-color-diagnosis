@@ -1,0 +1,28 @@
+rules_version = '2';
+
+// ラキカラの Firestore ルール。
+//
+// このプロジェクトの Firestore は「その日の占いを配信する」ためだけに使う。
+// ユーザーの個人情報はサーバーに置かない（docs/SPEC.md §5）。
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 占いは誰でも読める共有データ。書き込みは Cloud Functions
+    // （Admin SDK。セキュリティルールを迂回する）からのみ行う。
+    match /daily_fortune/{date} {
+      allow read: if true;
+      allow write: if false;
+
+      match /zodiacs/{zodiac} {
+        allow read: if true;
+        allow write: if false;
+      }
+    }
+
+    // 上記以外は一切許可しない。
+    // user コレクションを作らないという方針を、ルール側でも担保する。
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

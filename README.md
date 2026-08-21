@@ -10,6 +10,7 @@
 | [`docs/SPEC.md`](docs/SPEC.md) | 要件定義書・実装計画書 v1。**実装判断はすべてここに従う** |
 | [`docs/STEP0_SETUP.md`](docs/STEP0_SETUP.md) | Codemagic → TestFlight を通すための Apple / Codemagic 側の手順 |
 | [`docs/DATA_SCHEMA.md`](docs/DATA_SCHEMA.md) | `assets/` の静的JSONのキー名と検証ルール |
+| [`docs/STEP6_SETUP.md`](docs/STEP6_SETUP.md) | Firebase 接続と占い生成バッチのデプロイ手順 |
 | [`CLAUDE.md`](CLAUDE.md) | Claude Code 向けの作業ルール |
 
 ## 開発
@@ -19,6 +20,14 @@ flutter pub get
 flutter analyze
 flutter test
 flutter run
+```
+
+Cloud Functions（占いの生成バッチ）:
+
+```sh
+cd functions
+npm install
+npm run typecheck
 ```
 
 Flutter 3.47.0（CI で固定）。
@@ -35,7 +44,7 @@ Flutter 3.47.0（CI で固定）。
 | 3 骨格診断＋PC×骨格の結果表示 | 完了 |
 | 4 シェア画像生成 | 完了 |
 | 5 掛け合わせエンジン＋今日のおすすめ | 完了（占いは端末内の仮データ。Step 6 で Firestore 配信に差し替え） |
-| 6 Firebase接続＋Functionsバッチ | 未着手 |
+| 6 Firebase接続＋Functionsバッチ | コード側完了。Firebase / Anthropic 側の設定待ち |
 | 7 相性診断 | 完了 |
 
 静的コンテンツ（色マスタ40色・診断20問・タイプ属性・PC×骨格12通り・星座相性78件）は投入済み。

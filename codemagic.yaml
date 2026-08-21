@@ -30,6 +30,11 @@ workflows:
         script: flutter analyze
       - name: Flutter unit tests
         script: flutter test
+      - name: Cloud Functions typecheck
+        script: |
+          cd functions
+          npm ci
+          npm run typecheck
       - name: Install CocoaPods dependencies
         script: find . -name "Podfile" -execdir pod install \;
       - name: Apply provisioning profiles to Xcode project
@@ -69,6 +74,11 @@ workflows:
         script: flutter analyze
       - name: Flutter unit tests
         script: flutter test
+      - name: Cloud Functions typecheck
+        script: |
+          cd functions
+          npm ci
+          npm run typecheck
       # Step 0 は「ビルドが通ること」の確認のみ。
       # リリース署名（keystore）と Play への配信は Step 9 で追加する。
       - name: Build APK

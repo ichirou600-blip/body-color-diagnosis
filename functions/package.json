@@ -1,0 +1,25 @@
+{
+  "name": "rakikara-functions",
+  "description": "ラキカラのデイリー占い生成バッチ",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "sync-color-ids": "node scripts/sync-color-ids.mjs",
+    "deploy": "npm run build && firebase deploy --only functions"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.120.0",
+    "firebase-admin": "^13.6.0",
+    "firebase-functions": "^6.6.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

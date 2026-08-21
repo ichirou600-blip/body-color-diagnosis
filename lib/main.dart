@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'data/daily_fortune_source.dart';
+import 'data/fortune_source_factory.dart';
 import 'data/master_data.dart';
 import 'data/master_repository.dart';
 import 'data/profile_repository.dart';
@@ -16,10 +18,14 @@ class RakikaraApp extends StatelessWidget {
     super.key,
     this.masterRepository = const MasterRepository(),
     this.profileRepository = const ProfileRepository(),
+    this.fortuneSource,
   });
 
   final MasterRepository masterRepository;
   final ProfileRepository profileRepository;
+
+  /// 省略時は Firebase の初期化を試み、できなければ端末内の仮データに落ちる。
+  final DailyFortuneSource? fortuneSource;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,7 @@ class RakikaraApp extends StatelessWidget {
       home: AppRoot(
         masterRepository: masterRepository,
         profileRepository: profileRepository,
+        fortuneSource: fortuneSource,
       ),
     );
   }
@@ -46,10 +53,12 @@ class AppRoot extends StatefulWidget {
     super.key,
     required this.masterRepository,
     required this.profileRepository,
+    this.fortuneSource,
   });
 
   final MasterRepository masterRepository;
   final ProfileRepository profileRepository;
+  final DailyFortuneSource? fortuneSource;
 
   @override
   State<AppRoot> createState() => _AppRootState();
@@ -57,6 +66,7 @@ class AppRoot extends StatefulWidget {
 
 class _AppRootState extends State<AppRoot> {
   MasterData? _masters;
+  DailyFortuneSource _fortuneSource = const LocalDailyFortuneSource();
   UserProfile _profile = const UserProfile();
   Object? _error;
   bool _loading = true;
@@ -72,10 +82,13 @@ class _AppRootState extends State<AppRoot> {
     try {
       final masters = await widget.masterRepository.load();
       final profile = await widget.profileRepository.load();
+      final fortuneSource =
+          widget.fortuneSource ?? await createDailyFortuneSource();
       if (!mounted) return;
       setState(() {
         _masters = masters;
         _profile = profile;
+        _fortuneSource = fortuneSource;
         _error = null;
         _loading = false;
       });
@@ -130,6 +143,7 @@ class _AppRootState extends State<AppRoot> {
       masters: _masters!,
       profile: _profile,
       onProfileChanged: _updateProfile,
+      fortuneSource: _fortuneSource,
     );
   }
 }
