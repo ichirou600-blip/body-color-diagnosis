@@ -6,99 +6,350 @@
       "id": "pc_q01",
       "text": "手首の内側の血管、何色に見える？",
       "choices": [
-        { "id": "a", "text": "緑っぽい", "scores": { "spring": 2, "autumn": 2 } },
-        { "id": "b", "text": "青っぽい、または青むらさきっぽい", "scores": { "summer": 2, "winter": 2 } },
-        { "id": "c", "text": "緑も青も混ざって見える", "scores": { "spring": 1, "summer": 1, "autumn": 1, "winter": 1 } }
+        {
+          "id": "a",
+          "text": "緑っぽい",
+          "scores": {
+            "spring": 2,
+            "autumn": 2
+          }
+        },
+        {
+          "id": "b",
+          "text": "青っぽい、または青むらさきっぽい",
+          "scores": {
+            "summer": 2,
+            "winter": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "緑も青も混ざって見える",
+          "scores": {
+            "spring": 1,
+            "summer": 1,
+            "autumn": 1,
+            "winter": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q02",
       "text": "夏に日焼けしたあと、肌はどうなる？",
       "choices": [
-        { "id": "a", "text": "すぐこんがり色づいて、しばらく戻らない", "scores": { "autumn": 2, "spring": 1 } },
-        { "id": "b", "text": "はじめ少し赤くなって、そのあと小麦色になる", "scores": { "spring": 2, "autumn": 1 } },
-        { "id": "c", "text": "赤くなってヒリヒリするけど、わりとすぐ元に戻る", "scores": { "summer": 2, "winter": 1 } },
-        { "id": "d", "text": "赤くなるだけで、色はほとんど変わらない", "scores": { "winter": 2, "summer": 1 } }
+        {
+          "id": "a",
+          "text": "すぐこんがり色づいて、しばらく戻らない",
+          "scores": {
+            "autumn": 2,
+            "spring": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "はじめ少し赤くなって、そのあと小麦色になる",
+          "scores": {
+            "spring": 2,
+            "autumn": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "赤くなってヒリヒリするけど、わりとすぐ元に戻る",
+          "scores": {
+            "summer": 2,
+            "winter": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "赤くなるだけで、色はほとんど変わらない",
+          "scores": {
+            "winter": 2,
+            "summer": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q03",
       "text": "鏡で瞳をよく見ると、どんな色？",
       "choices": [
-        { "id": "a", "text": "明るい茶色で、キラキラして見える", "scores": { "spring": 2 } },
-        { "id": "b", "text": "やわらかいこげ茶で、輪郭がふんわりしてる", "scores": { "summer": 2 } },
-        { "id": "c", "text": "深い茶色で、落ち着いた濃さ", "scores": { "autumn": 2 } },
-        { "id": "d", "text": "黒に近くて、白目との差がはっきりしてる", "scores": { "winter": 2 } }
+        {
+          "id": "a",
+          "text": "明るい茶色で、キラキラして見える",
+          "scores": {
+            "spring": 2
+          }
+        },
+        {
+          "id": "b",
+          "text": "やわらかいこげ茶で、輪郭がふんわりしてる",
+          "scores": {
+            "summer": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "深い茶色で、落ち着いた濃さ",
+          "scores": {
+            "autumn": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "黒に近くて、白目との差がはっきりしてる",
+          "scores": {
+            "winter": 2
+          }
+        }
       ]
     },
     {
       "id": "pc_q04",
       "text": "染めてない地毛の色に近いのは？",
       "choices": [
-        { "id": "a", "text": "明るめの茶色。光に当たると軽く見える", "scores": { "spring": 1 } },
-        { "id": "b", "text": "やわらかい黒〜こげ茶。ほんのり赤みがある", "scores": { "summer": 1 } },
-        { "id": "c", "text": "深い茶色。黄みやオレンジっぽさがある", "scores": { "autumn": 1 } },
-        { "id": "d", "text": "しっかりした黒。ツヤが目立つ", "scores": { "winter": 1 } }
+        {
+          "id": "a",
+          "text": "明るめの茶色。光に当たると軽く見える",
+          "scores": {
+            "spring": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "やわらかい黒〜こげ茶。ほんのり赤みがある",
+          "scores": {
+            "summer": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "深い茶色。黄みやオレンジっぽさがある",
+          "scores": {
+            "autumn": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "しっかりした黒。ツヤが目立つ",
+          "scores": {
+            "winter": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q05",
       "text": "アクセを顔の近くに持ってきたとき、いちばんなじむ金属は？",
       "choices": [
-        { "id": "a", "text": "ピカッと光る明るいゴールド", "scores": { "spring": 2, "autumn": 1 } },
-        { "id": "b", "text": "少しくすんだ、こっくりしたゴールド", "scores": { "autumn": 2, "spring": 1 } },
-        { "id": "c", "text": "ツヤのあるシルバーやプラチナ", "scores": { "winter": 2, "summer": 1 } },
-        { "id": "d", "text": "ピンクゴールドや、やわらかいマットなシルバー", "scores": { "summer": 2, "winter": 1 } }
+        {
+          "id": "a",
+          "text": "ピカッと光る明るいゴールド",
+          "scores": {
+            "spring": 2,
+            "autumn": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "少しくすんだ、こっくりしたゴールド",
+          "scores": {
+            "autumn": 2,
+            "spring": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "ツヤのあるシルバーやプラチナ",
+          "scores": {
+            "winter": 2,
+            "summer": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "ピンクゴールドや、やわらかいマットなシルバー",
+          "scores": {
+            "summer": 2,
+            "winter": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q06",
       "text": "真っ白のTシャツを顔の下に当てると、どう見える？",
       "choices": [
-        { "id": "a", "text": "顔まわりがすっきりして、白がいちばんきれいに見える", "scores": { "winter": 2, "summer": 1 } },
-        { "id": "b", "text": "白でもいいけど、少しやわらかい白のほうが落ち着く", "scores": { "summer": 2, "winter": 1 } },
-        { "id": "c", "text": "アイボリーのほうが肌になじむ。真っ白は少し強い", "scores": { "spring": 2, "autumn": 1 } },
-        { "id": "d", "text": "生成りやベージュっぽい白のほうがしっくりくる", "scores": { "autumn": 2, "spring": 1 } }
+        {
+          "id": "a",
+          "text": "顔まわりがすっきりして、白がいちばんきれいに見える",
+          "scores": {
+            "winter": 2,
+            "summer": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "白でもいいけど、少しやわらかい白のほうが落ち着く",
+          "scores": {
+            "summer": 2,
+            "winter": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "アイボリーのほうが肌になじむ。真っ白は少し強い",
+          "scores": {
+            "spring": 2,
+            "autumn": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "生成りやベージュっぽい白のほうがしっくりくる",
+          "scores": {
+            "autumn": 2,
+            "spring": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q07",
       "text": "すっぴんのとき、頬の血色はどんな感じ？",
       "choices": [
-        { "id": "a", "text": "オレンジっぽい明るいピンク", "scores": { "spring": 1 } },
-        { "id": "b", "text": "青みのあるふんわりピンク", "scores": { "summer": 1 } },
-        { "id": "c", "text": "赤みは少なめで、ベージュ寄り", "scores": { "autumn": 1 } },
-        { "id": "d", "text": "ふだんは白っぽいけど、赤みが出るとはっきり出る", "scores": { "winter": 1 } }
+        {
+          "id": "a",
+          "text": "オレンジっぽい明るいピンク",
+          "scores": {
+            "spring": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "青みのあるふんわりピンク",
+          "scores": {
+            "summer": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "赤みは少なめで、ベージュ寄り",
+          "scores": {
+            "autumn": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "ふだんは白っぽいけど、赤みが出るとはっきり出る",
+          "scores": {
+            "winter": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q08",
       "text": "リップを塗ってないときの唇の色は？",
       "choices": [
-        { "id": "a", "text": "明るいコーラル（オレンジ寄りのピンク）", "scores": { "spring": 1 } },
-        { "id": "b", "text": "やさしいローズピンク", "scores": { "summer": 1 } },
-        { "id": "c", "text": "ブラウンがかった落ち着いた色", "scores": { "autumn": 1 } },
-        { "id": "d", "text": "青みのある濃いピンクや赤", "scores": { "winter": 1 } }
+        {
+          "id": "a",
+          "text": "明るいコーラル（オレンジ寄りのピンク）",
+          "scores": {
+            "spring": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "やさしいローズピンク",
+          "scores": {
+            "summer": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "ブラウンがかった落ち着いた色",
+          "scores": {
+            "autumn": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "青みのある濃いピンクや赤",
+          "scores": {
+            "winter": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q09",
       "text": "髪のツヤの出かたに近いのは？",
       "choices": [
-        { "id": "a", "text": "やわらかい髪質で、光がふんわり広がる", "scores": { "summer": 1 } },
-        { "id": "b", "text": "細くて軽く、動くたびに明るく光る", "scores": { "spring": 1 } },
-        { "id": "c", "text": "しっかりした髪質で、落ち着いたマットなツヤ", "scores": { "autumn": 1 } },
-        { "id": "d", "text": "ハリがあって、ツヤの線がくっきり出る", "scores": { "winter": 1 } }
+        {
+          "id": "a",
+          "text": "やわらかい髪質で、光がふんわり広がる",
+          "scores": {
+            "summer": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "細くて軽く、動くたびに明るく光る",
+          "scores": {
+            "spring": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "しっかりした髪質で、落ち着いたマットなツヤ",
+          "scores": {
+            "autumn": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "ハリがあって、ツヤの線がくっきり出る",
+          "scores": {
+            "winter": 1
+          }
+        }
       ]
     },
     {
       "id": "pc_q10",
       "text": "真っ黒の髪色にしたら、顔まわりはどう見える？",
       "choices": [
-        { "id": "a", "text": "輪郭がはっきりして、よく似合うと言われる", "scores": { "winter": 2 } },
-        { "id": "b", "text": "明るめの茶色のほうが顔になじむ", "scores": { "spring": 2 } },
-        { "id": "c", "text": "やわらかいこげ茶のほうが自然になじむ", "scores": { "summer": 2 } },
-        { "id": "d", "text": "赤みやオレンジみのあるブラウンがなじむ", "scores": { "autumn": 2 } }
+        {
+          "id": "a",
+          "text": "輪郭がはっきりして、よく似合うと言われる",
+          "scores": {
+            "winter": 2
+          }
+        },
+        {
+          "id": "b",
+          "text": "明るめの茶色のほうが顔になじむ",
+          "scores": {
+            "spring": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "やわらかいこげ茶のほうが自然になじむ",
+          "scores": {
+            "summer": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "赤みやオレンジみのあるブラウンがなじむ",
+          "scores": {
+            "autumn": 2
+          }
+        }
       ]
     }
   ],
@@ -107,90 +358,270 @@
       "id": "kk_q01",
       "text": "手首の骨を横から見ると、どんな形？",
       "choices": [
-        { "id": "a", "text": "たてに薄くて、骨はあまり目立たない", "scores": { "straight": 2 } },
-        { "id": "b", "text": "細くて丸みがある", "scores": { "wave": 2 } },
-        { "id": "c", "text": "骨がごつっと出ていて、角ばって見える", "scores": { "natural": 2 } }
+        {
+          "id": "a",
+          "text": "たてに薄くて、骨はあまり目立たない",
+          "scores": {
+            "straight": 6
+          }
+        },
+        {
+          "id": "b",
+          "text": "細くて丸みがある",
+          "scores": {
+            "wave": 6
+          }
+        },
+        {
+          "id": "c",
+          "text": "骨がごつっと出ていて、角ばって見える",
+          "scores": {
+            "natural": 6
+          }
+        }
       ]
     },
     {
       "id": "kk_q02",
       "text": "鏡で見たとき、首の長さは？",
       "choices": [
-        { "id": "a", "text": "短めに見える", "scores": { "straight": 1 } },
-        { "id": "b", "text": "細くて、長さはふつうくらい", "scores": { "wave": 1 } },
-        { "id": "c", "text": "長めで、首すじの筋が見える", "scores": { "natural": 1 } }
+        {
+          "id": "a",
+          "text": "短めに見える",
+          "scores": {
+            "straight": 4
+          }
+        },
+        {
+          "id": "b",
+          "text": "細くて、長さはふつうくらい",
+          "scores": {
+            "wave": 4
+          }
+        },
+        {
+          "id": "c",
+          "text": "長めで、首すじの筋が見える",
+          "scores": {
+            "natural": 4
+          }
+        }
       ]
     },
     {
       "id": "kk_q03",
       "text": "鎖骨はどんなふうに見える？",
       "choices": [
-        { "id": "a", "text": "あまり出ていなくて、なだらか", "scores": { "straight": 2 } },
-        { "id": "b", "text": "細くうっすら出ている", "scores": { "wave": 2 } },
-        { "id": "c", "text": "はっきり大きく出ている", "scores": { "natural": 2 } }
+        {
+          "id": "a",
+          "text": "あまり出ていなくて、なだらか",
+          "scores": {
+            "straight": 6
+          }
+        },
+        {
+          "id": "b",
+          "text": "細くうっすら出ている",
+          "scores": {
+            "wave": 6
+          }
+        },
+        {
+          "id": "c",
+          "text": "はっきり大きく出ている",
+          "scores": {
+            "natural": 6
+          }
+        }
       ]
     },
     {
       "id": "kk_q04",
       "text": "肩のラインはどれに近い？",
       "choices": [
-        { "id": "a", "text": "丸みがあって、なめらかにつながる", "scores": { "straight": 1 } },
-        { "id": "b", "text": "なで肩ぎみで、きゃしゃに見える", "scores": { "wave": 1 } },
-        { "id": "c", "text": "肩先の骨がしっかりしていて、直線的", "scores": { "natural": 1 } }
+        {
+          "id": "a",
+          "text": "丸みがあって、なめらかにつながる",
+          "scores": {
+            "straight": 4
+          }
+        },
+        {
+          "id": "b",
+          "text": "なで肩ぎみで、きゃしゃに見える",
+          "scores": {
+            "wave": 4
+          }
+        },
+        {
+          "id": "c",
+          "text": "肩先の骨がしっかりしていて、直線的",
+          "scores": {
+            "natural": 4
+          }
+        }
       ]
     },
     {
       "id": "kk_q05",
       "text": "ひざのお皿はどう見える？",
       "choices": [
-        { "id": "a", "text": "小さめで、あまり目立たない", "scores": { "straight": 1 } },
-        { "id": "b", "text": "小さくて丸い", "scores": { "wave": 1 } },
-        { "id": "c", "text": "大きめで、輪郭がはっきりしている", "scores": { "natural": 1 } }
+        {
+          "id": "a",
+          "text": "小さめで、あまり目立たない",
+          "scores": {
+            "straight": 4
+          }
+        },
+        {
+          "id": "b",
+          "text": "小さくて丸い",
+          "scores": {
+            "wave": 4
+          }
+        },
+        {
+          "id": "c",
+          "text": "大きめで、輪郭がはっきりしている",
+          "scores": {
+            "natural": 4
+          }
+        }
       ]
     },
     {
       "id": "kk_q06",
       "text": "手の甲と指を見ると？",
       "choices": [
-        { "id": "a", "text": "手のひらに厚みがあって、指はまっすぐ", "scores": { "straight": 2 } },
-        { "id": "b", "text": "手も指も小さめで薄い", "scores": { "wave": 2 } },
-        { "id": "c", "text": "関節や筋、血管がはっきり見える", "scores": { "natural": 2 } }
+        {
+          "id": "a",
+          "text": "手のひらに厚みがあって、指はまっすぐ",
+          "scores": {
+            "straight": 6
+          }
+        },
+        {
+          "id": "b",
+          "text": "手も指も小さめで薄い",
+          "scores": {
+            "wave": 6
+          }
+        },
+        {
+          "id": "c",
+          "text": "関節や筋、血管がはっきり見える",
+          "scores": {
+            "natural": 6
+          }
+        }
       ]
     },
     {
       "id": "kk_q07",
       "text": "着てみて「これ好きかも」と思うワンピのシルエットは？",
       "choices": [
-        { "id": "a", "text": "すとんと落ちるIラインのシンプルなワンピ", "scores": { "straight": 2 } },
-        { "id": "b", "text": "上が細くて、スカートがふわっと広がるワンピ", "scores": { "wave": 2 } },
-        { "id": "c", "text": "ゆるっと大きめのビッグシルエットのワンピ", "scores": { "natural": 2 } }
+        {
+          "id": "a",
+          "text": "すとんと落ちるIラインのシンプルなワンピ",
+          "scores": {
+            "straight": 6
+          }
+        },
+        {
+          "id": "b",
+          "text": "上が細くて、スカートがふわっと広がるワンピ",
+          "scores": {
+            "wave": 6
+          }
+        },
+        {
+          "id": "c",
+          "text": "ゆるっと大きめのビッグシルエットのワンピ",
+          "scores": {
+            "natural": 6
+          }
+        }
       ]
     },
     {
       "id": "kk_q08",
       "text": "ハイネックやタートルを着ると、どう感じる？",
       "choices": [
-        { "id": "a", "text": "襟が開いたVネックのほうが、すっきりなじむ", "scores": { "straight": 1 } },
-        { "id": "b", "text": "ハイネックもOK。首元にフリルやリボンがあると決まる", "scores": { "wave": 1 } },
-        { "id": "c", "text": "タートルが得意。ざっくりした襟ほどしっくりくる", "scores": { "natural": 1 } }
+        {
+          "id": "a",
+          "text": "襟が開いたVネックのほうが、すっきりなじむ",
+          "scores": {
+            "straight": 2
+          }
+        },
+        {
+          "id": "b",
+          "text": "ハイネックもOK。首元にフリルやリボンがあると決まる",
+          "scores": {
+            "wave": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "タートルが得意。ざっくりした襟ほどしっくりくる",
+          "scores": {
+            "natural": 2
+          }
+        }
       ]
     },
     {
       "id": "kk_q09",
       "text": "ニットを選ぶなら、どれがしっくりくる？",
       "choices": [
-        { "id": "a", "text": "編み目が細かくて、なめらかなニット", "scores": { "straight": 1 } },
-        { "id": "b", "text": "薄手でやわらかい、軽いニット", "scores": { "wave": 1 } },
-        { "id": "c", "text": "編み目が大きい、ざっくりニット", "scores": { "natural": 1 } }
+        {
+          "id": "a",
+          "text": "編み目が細かくて、なめらかなニット",
+          "scores": {
+            "straight": 2
+          }
+        },
+        {
+          "id": "b",
+          "text": "薄手でやわらかい、軽いニット",
+          "scores": {
+            "wave": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "編み目が大きい、ざっくりニット",
+          "scores": {
+            "natural": 2
+          }
+        }
       ]
     },
     {
       "id": "kk_q10",
       "text": "定番の白シャツを1枚で着ると、どんな感じになる？",
       "choices": [
-        { "id": "a", "text": "きちんとして見えて、それだけで決まる", "scores": { "straight": 2 } },
-        { "id": "b", "text": "リボンやウエストマークを足したくなる", "scores": { "wave": 2 } },
-        { "id": "c", "text": "袖をまくってラフに着崩すほうがしっくりくる", "scores": { "natural": 2 } }
+        {
+          "id": "a",
+          "text": "きちんとして見えて、それだけで決まる",
+          "scores": {
+            "straight": 9
+          }
+        },
+        {
+          "id": "b",
+          "text": "リボンやウエストマークを足したくなる",
+          "scores": {
+            "wave": 9
+          }
+        },
+        {
+          "id": "c",
+          "text": "袖をまくってラフに着崩すほうがしっくりくる",
+          "scores": {
+            "natural": 9
+          }
+        }
       ]
     }
   ]

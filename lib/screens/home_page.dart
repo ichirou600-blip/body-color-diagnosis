@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/master_data.dart';
 import '../logic/diagnosis_scoring.dart';
+import '../logic/personal_color_judge.dart';
 import '../models/enums.dart';
 import '../models/master_models.dart';
 import '../models/user_profile.dart';
@@ -39,8 +40,7 @@ class HomePage extends StatelessWidget {
     required NavigatorState navigator,
     required String title,
     required List<Question> questions,
-    required List<T> candidates,
-    required String Function(T type) idOf,
+    required T Function(DiagnosisAnswers answers) judge,
     required UserProfile Function(UserProfile current, T type) apply,
     required Widget Function(T type, VoidCallback retry) resultPage,
   }) async {
@@ -51,26 +51,20 @@ class HomePage extends StatelessWidget {
     );
     if (answers == null) return; // 途中でやめた
 
-    final result = scoreDiagnosis(
-      questions: questions,
-      candidates: candidates,
-      idOf: idOf,
-      answers: answers,
-    );
-    await onProfileChanged((current) => apply(current, result.type));
+    final type = judge(answers);
+    await onProfileChanged((current) => apply(current, type));
 
     void retry() => _runDiagnosis(
           navigator: navigator,
           title: title,
           questions: questions,
-          candidates: candidates,
-          idOf: idOf,
+          judge: judge,
           apply: apply,
           resultPage: resultPage,
         );
 
     await navigator.push(
-      MaterialPageRoute(builder: (_) => resultPage(result.type, retry)),
+      MaterialPageRoute(builder: (_) => resultPage(type, retry)),
     );
   }
 
@@ -79,8 +73,10 @@ class HomePage extends StatelessWidget {
       navigator: navigator,
       title: 'パーソナルカラー診断',
       questions: masters.personalColorQuestions,
-      candidates: PersonalColorType.values,
-      idOf: (type) => type.id,
+      judge: (answers) => judgePersonalColor(
+        questions: masters.personalColorQuestions,
+        answers: answers,
+      ).type,
       apply: (current, type) => current.copyWith(personalColor: type),
       resultPage: (type, retry) => PersonalColorResultPage(
         masters: masters,
@@ -96,8 +92,12 @@ class HomePage extends StatelessWidget {
       navigator: navigator,
       title: '骨格診断',
       questions: masters.kokkakuQuestions,
-      candidates: KokkakuType.values,
-      idOf: (type) => type.id,
+      judge: (answers) => scoreDiagnosis(
+        questions: masters.kokkakuQuestions,
+        candidates: KokkakuType.values,
+        idOf: (type) => type.id,
+        answers: answers,
+      ).type,
       apply: (current, type) => current.copyWith(kokkaku: type),
       resultPage: (type, retry) => KokkakuResultPage(
         masters: masters,
