@@ -4,9 +4,7 @@ import 'package:rakikara/data/master_repository.dart';
 /// `assets/` に実際に置いてあるJSONが読めることを確認する。
 ///
 /// 本コンテンツに差し替えたときも、このテストが最初に落ちる場所になる。
-/// **件数（40色 / 12通り / 78件 / 各10問）はここでは検証しない**。
-/// 仮データのままでも CI を通す必要があるため。件数は
-/// `MasterData.missingContentReport()` が実行時に報告する。
+/// 件数と文言のルールは `test/assets_completeness_test.dart` で検証する。
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -29,11 +27,4 @@ void main() {
     }
   });
 
-  test('仮データの状態が missingContentReport で分かる', () async {
-    final masters = await const MasterRepository().load();
-
-    // 本コンテンツを入れ終わったらこのリストは空になる。
-    // そのときこのテストは「本データが揃った」ことを示す形に書き換える。
-    expect(masters.missingContentReport(), isNotEmpty);
-  });
 }

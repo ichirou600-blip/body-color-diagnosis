@@ -1,11 +1,328 @@
 {
   "version": 1,
-  "_note": "仮データ。構造確認用の最小サンプルであり、本データではない。docs/DATA_SCHEMA.md に沿ってチャット側で作成した本データに丸ごと差し替える。 本データは40色。",
   "colors": [
-    { "id": "coral_pink",   "name": "コーラルピンク",   "hex": "#FF8B7B", "pc_types": ["spring"] },
-    { "id": "powder_blue",  "name": "パウダーブルー",   "hex": "#A8C8E0", "pc_types": ["summer"] },
-    { "id": "terracotta",   "name": "テラコッタ",       "hex": "#B7643C", "pc_types": ["autumn"] },
-    { "id": "royal_blue",   "name": "ロイヤルブルー",   "hex": "#1F4E9C", "pc_types": ["winter"] },
-    { "id": "off_white",    "name": "オフホワイト",     "hex": "#F5F0E6", "pc_types": ["spring", "autumn"] }
+    {
+      "id": "coral_pink",
+      "name": "コーラルピンク",
+      "hex": "#FF8B7B",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "apricot",
+      "name": "アプリコット",
+      "hex": "#F7A072",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "peach",
+      "name": "ピーチ",
+      "hex": "#FFCBA4",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "cream_yellow",
+      "name": "クリームイエロー",
+      "hex": "#FFF1A8",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "fresh_green",
+      "name": "フレッシュグリーン",
+      "hex": "#A8D96A",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "turquoise",
+      "name": "ターコイズ",
+      "hex": "#48C9C9",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "ivory",
+      "name": "アイボリー",
+      "hex": "#FFF8E7",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "light_orange",
+      "name": "ライトオレンジ",
+      "hex": "#FFA552",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "salmon_pink",
+      "name": "サーモンピンク",
+      "hex": "#FF9E8A",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "marigold",
+      "name": "マリーゴールド",
+      "hex": "#FFC145",
+      "pc_types": [
+        "spring"
+      ]
+    },
+    {
+      "id": "baby_pink",
+      "name": "ベビーピンク",
+      "hex": "#F7C6D9",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "lavender",
+      "name": "ラベンダー",
+      "hex": "#B9A5D9",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "powder_blue",
+      "name": "パウダーブルー",
+      "hex": "#A8C8E0",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "mint_green",
+      "name": "ミントグリーン",
+      "hex": "#A8DCC8",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "rose_pink",
+      "name": "ローズピンク",
+      "hex": "#E091AE",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "smoky_blue",
+      "name": "スモーキーブルー",
+      "hex": "#7B9BB5",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "greige",
+      "name": "グレージュ",
+      "hex": "#B5AAA0",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "soft_navy",
+      "name": "ソフトネイビー",
+      "hex": "#4A5F7E",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "mauve",
+      "name": "モーヴ",
+      "hex": "#A87C9F",
+      "pc_types": [
+        "summer"
+      ]
+    },
+    {
+      "id": "ice_blue",
+      "name": "アイスブルー",
+      "hex": "#C3DDF0",
+      "pc_types": [
+        "summer",
+        "winter"
+      ]
+    },
+    {
+      "id": "terracotta",
+      "name": "テラコッタ",
+      "hex": "#B7643C",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "mustard",
+      "name": "マスタード",
+      "hex": "#D4A017",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "olive",
+      "name": "オリーブ",
+      "hex": "#7C7A4A",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "chocolate_brown",
+      "name": "チョコレートブラウン",
+      "hex": "#6B4A32",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "brick_red",
+      "name": "ブリックレッド",
+      "hex": "#9C3B2E",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "khaki",
+      "name": "カーキ",
+      "hex": "#8A8560",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "pumpkin",
+      "name": "パンプキン",
+      "hex": "#D97B34",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "moss_green",
+      "name": "モスグリーン",
+      "hex": "#5F6B3C",
+      "pc_types": [
+        "autumn"
+      ]
+    },
+    {
+      "id": "beige",
+      "name": "ベージュ",
+      "hex": "#D9C3A5",
+      "pc_types": [
+        "autumn",
+        "spring"
+      ]
+    },
+    {
+      "id": "camel",
+      "name": "キャメル",
+      "hex": "#C89F6B",
+      "pc_types": [
+        "autumn",
+        "spring"
+      ]
+    },
+    {
+      "id": "royal_blue",
+      "name": "ロイヤルブルー",
+      "hex": "#1F4E9C",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "pure_white",
+      "name": "ピュアホワイト",
+      "hex": "#FFFFFF",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "black",
+      "name": "ブラック",
+      "hex": "#1A1A1A",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "magenta",
+      "name": "マゼンタ",
+      "hex": "#D6006E",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "emerald_green",
+      "name": "エメラルドグリーン",
+      "hex": "#009B77",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "purple",
+      "name": "パープル",
+      "hex": "#6A2C91",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "cherry_red",
+      "name": "チェリーレッド",
+      "hex": "#C8102E",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "silver_gray",
+      "name": "シルバーグレー",
+      "hex": "#B0B7BC",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "wine_red",
+      "name": "ワインレッド",
+      "hex": "#7A1F3D",
+      "pc_types": [
+        "winter"
+      ]
+    },
+    {
+      "id": "lemon_yellow",
+      "name": "レモンイエロー",
+      "hex": "#F5E050",
+      "pc_types": [
+        "winter"
+      ]
+    }
   ]
 }

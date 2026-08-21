@@ -11,10 +11,9 @@
 
 - `docs/SPEC.md` §9 の実装ステップを **1ステップずつ** 進める。指示されていない先のステップを先回りして作らない
 - 各ステップは §9 の「完了条件」を満たしたら止めて報告する
-- 現在のステップ: **Step 2（PC診断フロー）**
+- 現在のステップ: **Step 3（骨格診断＋PC×骨格の結果表示）**
   - Step 0 はコード側完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
-  - Step 1 完了
-  - Step 2 はロジックと画面が完了。**完了条件の「10問」は `questions.json` に本データが入るまで満たせない**（現在は仮の1問で動作）
+  - Step 1・2 完了
 
 ## 絶対に破らないルール
 
@@ -48,11 +47,11 @@ flutter test
 
 ## コンテンツ（静的JSON）
 
-`assets/` 配下の以下はチャット側で作成してから配置する。Claude Code 側で中身を勝手に生成・水増ししない（作成中の仮データを置く場合は仮であることを明示する）:
+対象ファイル: `color_master.json` / `type_attributes.json` / `pc_x_kokkaku.json` / `compatibility.json` / `questions.json`
 
-`color_master.json` / `type_attributes.json` / `pc_x_kokkaku.json` / `compatibility.json` / `questions.json`
-
-**JSONのキー名と検証ルールは `docs/DATA_SCHEMA.md` で確定済み。**現在 `assets/` にあるのは構造確認用の仮データで、本データは同じ形のまま丸ごと差し替える（コード変更不要）。
+- **JSONのキー名と検証ルールは `docs/DATA_SCHEMA.md` で確定済み。**
+- 本データ投入済み。件数と文言ルールは `test/assets_completeness_test.dart` が検証する
+- コンテンツ作成はユーザーの指示により Claude Code 側で実施した（当初は「チャット側で作成」の方針だったが変更）。**内容を変更したら必ず `flutter test` を通すこと**（禁止表現の混入を機械的に弾いている）
 
 ## 掛け合わせエンジン
 

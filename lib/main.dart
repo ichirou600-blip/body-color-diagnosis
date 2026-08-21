@@ -88,10 +88,15 @@ class _AppRootState extends State<AppRoot> {
     }
   }
 
-  Future<void> _saveProfile(UserProfile profile) async {
-    await widget.profileRepository.save(profile);
+  /// 常に最新のプロフィールに対して更新をかける。
+  ///
+  /// 画面側が保持している（＝古くなっているかもしれない）プロフィールを
+  /// 丸ごと渡させると、あとから来た診断結果が前の結果を消してしまう。
+  Future<void> _updateProfile(UserProfile Function(UserProfile current) update) async {
+    final next = update(_profile);
+    await widget.profileRepository.save(next);
     if (!mounted) return;
-    setState(() => _profile = profile);
+    setState(() => _profile = next);
   }
 
   @override
@@ -124,7 +129,7 @@ class _AppRootState extends State<AppRoot> {
     return HomePage(
       masters: _masters!,
       profile: _profile,
-      onProfileChanged: _saveProfile,
+      onProfileChanged: _updateProfile,
     );
   }
 }

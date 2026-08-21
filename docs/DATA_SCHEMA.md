@@ -135,4 +135,4 @@
 7. `questions.json` の各問に選択肢が2つ以上あり、`scores` のキーがそのセクションの語彙に収まっている
 
 **件数（40色 / 12通り / 78件 / 各10問）は起動時には検証しない。**仮データでも動くようにするため。
-本データ投入後にこれを担保したい場合は `test/assets_completeness_test.dart` を有効化する（下記）。
+件数と文言ルールは `test/assets_completeness_test.dart` で検証する。

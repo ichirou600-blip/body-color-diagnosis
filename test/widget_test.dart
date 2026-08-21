@@ -7,8 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'data/master_repository_test.dart' show validSources;
 import 'support/fake_asset_bundle.dart';
 
-/// 3問すべて "a" を選ぶとイエベ春、"b" を選ぶとブルベ冬になる質問セット。
-const String _threeQuestions = '''
+/// PC は3問すべて "春" を選ぶとイエベ春・"冬" ならブルベ冬、
+/// 骨格は2問すべて "ウェーブ" ならウェーブ・"ナチュラル" ならナチュラルになる質問セット。
+const String _questions = '''
 {"version":1,
  "personal_color":[
   {"id":"pc_q01","text":"設問1","choices":[
@@ -20,7 +21,13 @@ const String _threeQuestions = '''
   {"id":"pc_q03","text":"設問3","choices":[
     {"id":"a","text":"設問3の春","scores":{"spring":1}},
     {"id":"b","text":"設問3の冬","scores":{"winter":1}}]}],
- "kokkaku":[]}''';
+ "kokkaku":[
+  {"id":"kk_q01","text":"骨格1","choices":[
+    {"id":"a","text":"骨格1のウェーブ","scores":{"wave":1}},
+    {"id":"b","text":"骨格1のナチュラル","scores":{"natural":1}}]},
+  {"id":"kk_q02","text":"骨格2","choices":[
+    {"id":"a","text":"骨格2のウェーブ","scores":{"wave":1}},
+    {"id":"b","text":"骨格2のナチュラル","scores":{"natural":1}}]}]}''';
 
 void main() {
   late RakikaraApp app;
@@ -37,14 +44,36 @@ void main() {
 
   setUp(() {
     SharedPreferences.setMockInitialValues({});
-    app = buildApp(questions: _threeQuestions);
+    app = buildApp(questions: _questions);
   });
 
-  Future<void> answerAll(WidgetTester tester, String suffix) async {
+  /// パーソナルカラー診断の全3問に同じ傾向の選択肢で答える。
+  Future<void> answerPersonalColor(WidgetTester tester, String suffix) async {
     for (var i = 1; i <= 3; i++) {
       await tester.tap(find.text('設問$iの$suffix'));
       await tester.pumpAndSettle();
     }
+  }
+
+  /// 骨格診断の全2問に同じ傾向の選択肢で答える。
+  Future<void> answerKokkaku(WidgetTester tester, String suffix) async {
+    for (var i = 1; i <= 2; i++) {
+      await tester.tap(find.text('骨格$iの$suffix'));
+      await tester.pumpAndSettle();
+    }
+  }
+
+  /// ホームから診断を1つ通しで実行し、結果画面からホームに戻る。
+  Future<void> runDiagnosis(
+    WidgetTester tester, {
+    required String startButton,
+    required Future<void> Function(WidgetTester tester) answer,
+  }) async {
+    await tester.tap(find.text(startButton));
+    await tester.pumpAndSettle();
+    await answer(tester);
+    await tester.tap(find.text('ホームに戻る'));
+    await tester.pumpAndSettle();
   }
 
   testWidgets('起動するとホームに未診断の状態が出る', (tester) async {
@@ -65,7 +94,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Q1 / 3'), findsOneWidget);
 
-    await answerAll(tester, '春');
+    await answerPersonalColor(tester, '春');
 
     expect(find.text('診断結果'), findsOneWidget);
     expect(find.text('イエベ春'), findsOneWidget);
@@ -77,7 +106,7 @@ void main() {
 
     await tester.tap(find.text('パーソナルカラー診断をはじめる'));
     await tester.pumpAndSettle();
-    await answerAll(tester, '冬');
+    await answerPersonalColor(tester, '冬');
 
     expect(find.text('ブルベ冬'), findsOneWidget);
   });
@@ -88,7 +117,7 @@ void main() {
 
     await tester.tap(find.text('パーソナルカラー診断をはじめる'));
     await tester.pumpAndSettle();
-    await answerAll(tester, '春');
+    await answerPersonalColor(tester, '春');
     await tester.tap(find.text('ホームに戻る'));
     await tester.pumpAndSettle();
 
@@ -96,7 +125,7 @@ void main() {
     expect(find.text('パーソナルカラーを診断しなおす'), findsOneWidget);
 
     // 端末の再起動に相当する
-    await tester.pumpWidget(buildApp(questions: _threeQuestions));
+    await tester.pumpWidget(buildApp(questions: _questions));
     await tester.pumpAndSettle();
 
     expect(find.text('イエベ春'), findsOneWidget);
@@ -118,6 +147,87 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('未診断'), findsNWidgets(3));
+  });
+
+  testWidgets('骨格診断も同じ流れで判定・保存される', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('骨格診断をはじめる'));
+    await tester.pumpAndSettle();
+    expect(find.text('Q1 / 2'), findsOneWidget);
+
+    await answerKokkaku(tester, 'ナチュラル');
+
+    expect(find.text('ナチュラル'), findsOneWidget);
+
+    await tester.tap(find.text('ホームに戻る'));
+    await tester.pumpAndSettle();
+    expect(find.text('骨格を診断しなおす'), findsOneWidget);
+  });
+
+  testWidgets('PCと骨格が揃うと掛け合わせのテキストが出る', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    // 片方だけでは掛け合わせは出ず、何を診断すればよいかが出る
+    await runDiagnosis(
+      tester,
+      startButton: 'パーソナルカラー診断をはじめる',
+      answer: (tester) => answerPersonalColor(tester, '春'),
+    );
+    expect(find.text('骨格も診断すると、あなたに似合うスタイルが出ます。'), findsOneWidget);
+
+    await runDiagnosis(
+      tester,
+      startButton: '骨格診断をはじめる',
+      answer: (tester) => answerKokkaku(tester, 'ウェーブ'),
+    );
+
+    // fixture の pc_x_kokkaku は spring × wave のみ登録してある
+    expect(find.text('イエベ春 × ウェーブ に似合うスタイル'), findsOneWidget);
+    expect(find.text('春ウェーブ'), findsOneWidget);
+  });
+
+  testWidgets('骨格の結果画面にも掛け合わせのテキストが出る', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await runDiagnosis(
+      tester,
+      startButton: 'パーソナルカラー診断をはじめる',
+      answer: (tester) => answerPersonalColor(tester, '春'),
+    );
+    await tester.tap(find.text('骨格診断をはじめる'));
+    await tester.pumpAndSettle();
+    await answerKokkaku(tester, 'ウェーブ');
+
+    expect(find.text('診断結果'), findsOneWidget);
+    expect(find.text('春ウェーブ'), findsOneWidget);
+  });
+
+  testWidgets('片方を診断しなおしても、もう片方の結果は消えない', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await runDiagnosis(
+      tester,
+      startButton: 'パーソナルカラー診断をはじめる',
+      answer: (tester) => answerPersonalColor(tester, '春'),
+    );
+    await runDiagnosis(
+      tester,
+      startButton: '骨格診断をはじめる',
+      answer: (tester) => answerKokkaku(tester, 'ウェーブ'),
+    );
+    await runDiagnosis(
+      tester,
+      startButton: 'パーソナルカラーを診断しなおす',
+      answer: (tester) => answerPersonalColor(tester, '冬'),
+    );
+
+    expect(find.text('ブルベ冬'), findsOneWidget);
+    expect(find.text('ウェーブ'), findsOneWidget);
   });
 
   testWidgets('マスタが壊れていればエラー表示になり、再試行できる', (tester) async {

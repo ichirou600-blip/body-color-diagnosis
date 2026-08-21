@@ -3,14 +3,22 @@ import 'package:flutter/material.dart';
 import '../data/master_data.dart';
 import '../logic/diagnosis_scoring.dart';
 import '../models/enums.dart';
+import '../models/master_models.dart';
 import '../models/user_profile.dart';
 import 'diagnosis_page.dart';
+import 'kokkaku_result_page.dart';
 import 'personal_color_result_page.dart';
+import 'style_match_card.dart';
+
+/// プロフィール更新の依頼。常に最新の値を受け取って新しい値を返す。
+typedef ProfileUpdater = Future<void> Function(
+  UserProfile Function(UserProfile current) update,
+);
 
 /// ホーム画面。プロフィールの現状と、各診断への入口を出す。
 ///
-/// Step 2 時点ではパーソナルカラー診断だけ。骨格診断は Step 3、
-/// 今日のおすすめ・占いは Step 5 以降で足す（`docs/SPEC.md` §9）。
+/// Step 3 時点ではパーソナルカラー診断・骨格診断とその掛け合わせ表示まで。
+/// 今日の占い・今日のおすすめは Step 5 以降で足す（`docs/SPEC.md` §9）。
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -21,38 +29,81 @@ class HomePage extends StatelessWidget {
 
   final MasterData masters;
   final UserProfile profile;
+  final ProfileUpdater onProfileChanged;
 
-  /// 診断結果を保存するときに呼ぶ。永続化は呼び出し側の責務。
-  final Future<void> Function(UserProfile profile) onProfileChanged;
-
-  /// 結果画面から「もう一度診断する」で再入するため、[BuildContext] ではなく
-  /// [NavigatorState] を受け取る。pop 済みの画面の context は使えないため。
-  Future<void> _startPersonalColorDiagnosis(NavigatorState navigator) async {
+  /// 質問 → 判定 → 保存 → 結果画面 の一連。PC・骨格で共用する。
+  ///
+  /// 結果画面から「もう一度診断する」で再入するため、pop 済みの画面の
+  /// [BuildContext] ではなく [NavigatorState] を受け取る。
+  Future<void> _runDiagnosis<T>({
+    required NavigatorState navigator,
+    required String title,
+    required List<Question> questions,
+    required List<T> candidates,
+    required String Function(T type) idOf,
+    required UserProfile Function(UserProfile current, T type) apply,
+    required Widget Function(T type, VoidCallback retry) resultPage,
+  }) async {
     final answers = await navigator.push<DiagnosisAnswers>(
       MaterialPageRoute(
-        builder: (_) => DiagnosisPage(
-          title: 'パーソナルカラー診断',
-          questions: masters.personalColorQuestions,
-        ),
+        builder: (_) => DiagnosisPage(title: title, questions: questions),
       ),
     );
     if (answers == null) return; // 途中でやめた
 
     final result = scoreDiagnosis(
+      questions: questions,
+      candidates: candidates,
+      idOf: idOf,
+      answers: answers,
+    );
+    await onProfileChanged((current) => apply(current, result.type));
+
+    void retry() => _runDiagnosis(
+          navigator: navigator,
+          title: title,
+          questions: questions,
+          candidates: candidates,
+          idOf: idOf,
+          apply: apply,
+          resultPage: resultPage,
+        );
+
+    await navigator.push(
+      MaterialPageRoute(builder: (_) => resultPage(result.type, retry)),
+    );
+  }
+
+  Future<void> _startPersonalColor(NavigatorState navigator) {
+    return _runDiagnosis<PersonalColorType>(
+      navigator: navigator,
+      title: 'パーソナルカラー診断',
       questions: masters.personalColorQuestions,
       candidates: PersonalColorType.values,
       idOf: (type) => type.id,
-      answers: answers,
+      apply: (current, type) => current.copyWith(personalColor: type),
+      resultPage: (type, retry) => PersonalColorResultPage(
+        masters: masters,
+        type: type,
+        kokkaku: profile.kokkaku,
+        onRetry: retry,
+      ),
     );
-    await onProfileChanged(profile.copyWith(personalColor: result.type));
+  }
 
-    await navigator.push(
-      MaterialPageRoute(
-        builder: (_) => PersonalColorResultPage(
-          masters: masters,
-          type: result.type,
-          onRetry: () => _startPersonalColorDiagnosis(navigator),
-        ),
+  Future<void> _startKokkaku(NavigatorState navigator) {
+    return _runDiagnosis<KokkakuType>(
+      navigator: navigator,
+      title: '骨格診断',
+      questions: masters.kokkakuQuestions,
+      candidates: KokkakuType.values,
+      idOf: (type) => type.id,
+      apply: (current, type) => current.copyWith(kokkaku: type),
+      resultPage: (type, retry) => KokkakuResultPage(
+        masters: masters,
+        type: type,
+        personalColor: profile.personalColor,
+        onRetry: retry,
       ),
     );
   }
@@ -70,24 +121,34 @@ class HomePage extends StatelessWidget {
           children: [
             Text('あなたのタイプ', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
-            _ProfileRow(
-              label: 'パーソナルカラー',
-              value: profile.personalColor?.label,
-            ),
+            _ProfileRow(label: 'パーソナルカラー', value: profile.personalColor?.label),
             _ProfileRow(label: '骨格', value: profile.kokkaku?.label),
             _ProfileRow(label: '星座', value: profile.zodiac?.label),
             const SizedBox(height: 24),
+            StyleMatchCard(
+              masters: masters,
+              personalColor: profile.personalColor,
+              kokkaku: profile.kokkaku,
+            ),
+            const SizedBox(height: 24),
             FilledButton(
-              onPressed: () => _startPersonalColorDiagnosis(Navigator.of(context)),
+              onPressed: () => _startPersonalColor(Navigator.of(context)),
               child: Text(
                 profile.personalColor == null
                     ? 'パーソナルカラー診断をはじめる'
                     : 'パーソナルカラーを診断しなおす',
               ),
             ),
+            const SizedBox(height: 12),
+            FilledButton.tonal(
+              onPressed: () => _startKokkaku(Navigator.of(context)),
+              child: Text(
+                profile.kokkaku == null ? '骨格診断をはじめる' : '骨格を診断しなおす',
+              ),
+            ),
             const SizedBox(height: 32),
             Text(
-              '骨格診断・今日の占い・今日のおすすめは順次追加されます。',
+              '今日の占い・今日のおすすめは順次追加されます。',
               style: theme.textTheme.bodySmall,
             ),
             if (missing.isNotEmpty) ...[
