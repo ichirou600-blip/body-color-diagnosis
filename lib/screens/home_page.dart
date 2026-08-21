@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/daily_fortune_source.dart';
 import '../data/master_data.dart';
 import '../logic/diagnosis_scoring.dart';
 import '../logic/personal_color_judge.dart';
@@ -10,6 +11,7 @@ import 'diagnosis_page.dart';
 import 'kokkaku_result_page.dart';
 import 'personal_color_result_page.dart';
 import 'share_page.dart';
+import 'today_page.dart';
 import 'style_match_card.dart';
 
 /// プロフィール更新の依頼。常に最新の値を受け取って新しい値を返す。
@@ -27,11 +29,15 @@ class HomePage extends StatelessWidget {
     required this.masters,
     required this.profile,
     required this.onProfileChanged,
+    this.fortuneSource = const LocalDailyFortuneSource(),
   });
 
   final MasterData masters;
   final UserProfile profile;
   final ProfileUpdater onProfileChanged;
+
+  /// Step 5 時点では端末内の仮データ。Step 6 で Firestore 実装に差し替える。
+  final DailyFortuneSource fortuneSource;
 
   /// 質問 → 判定 → 保存 → 結果画面 の一連。PC・骨格で共用する。
   ///
@@ -109,6 +115,22 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  /// 誕生日を選ぶ。星座はここから算出するので、日付そのものは端末内にしか置かない。
+  Future<void> _pickBirthday(BuildContext context) async {
+    final now = DateTime.now();
+    final current = profile.birthday ?? DateTime(now.year - 16, 1, 1);
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: current,
+      // 主対象は13〜18歳。前後に余裕を持たせた範囲にしておく。
+      firstDate: DateTime(now.year - 30, 1, 1),
+      lastDate: now,
+      helpText: '誕生日をえらぶ',
+    );
+    if (picked == null) return;
+    await onProfileChanged((current) => current.copyWith(birthday: picked));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -125,6 +147,20 @@ class HomePage extends StatelessWidget {
             _ProfileRow(label: 'パーソナルカラー', value: profile.personalColor?.label),
             _ProfileRow(label: '骨格', value: profile.kokkaku?.label),
             _ProfileRow(label: '星座', value: profile.zodiac?.label),
+            const SizedBox(height: 24),
+            FilledButton.icon(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TodayPage(
+                    masters: masters,
+                    profile: profile,
+                    fortuneSource: fortuneSource,
+                  ),
+                ),
+              ),
+              icon: const Icon(Icons.auto_awesome),
+              label: const Text('今日のおすすめを見る'),
+            ),
             const SizedBox(height: 24),
             StyleMatchCard(
               masters: masters,
@@ -147,6 +183,13 @@ class HomePage extends StatelessWidget {
                 profile.kokkaku == null ? '骨格診断をはじめる' : '骨格を診断しなおす',
               ),
             ),
+            const SizedBox(height: 12),
+            FilledButton.tonal(
+              onPressed: () => _pickBirthday(context),
+              child: Text(
+                profile.birthday == null ? '誕生日を登録する' : '誕生日を変更する',
+              ),
+            ),
             if (!profile.isEmpty) ...[
               const SizedBox(height: 12),
               OutlinedButton.icon(
@@ -161,7 +204,7 @@ class HomePage extends StatelessWidget {
             ],
             const SizedBox(height: 32),
             Text(
-              '今日の占い・今日のおすすめは順次追加されます。',
+              '相性診断は順次追加されます。',
               style: theme.textTheme.bodySmall,
             ),
             if (missing.isNotEmpty) ...[

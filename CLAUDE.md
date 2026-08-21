@@ -11,9 +11,9 @@
 
 - `docs/SPEC.md` §9 の実装ステップを **1ステップずつ** 進める。指示されていない先のステップを先回りして作らない
 - 各ステップは §9 の「完了条件」を満たしたら止めて報告する
-- 現在のステップ: **Step 4（シェア画像生成）**
+- 現在のステップ: **Step 5（掛け合わせエンジン＋今日のおすすめ）**
   - Step 0 はコード側完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
-  - Step 1・2・3 完了
+  - Step 1〜4 完了
 
 ## 絶対に破らないルール
 
@@ -43,7 +43,7 @@ flutter test
 ## 未決事項の扱い（`docs/SPEC.md` §11）
 
 - ~~アプリ名~~ → **「ラキカラ」で決定済み**（`docs/SPEC.md` §1）。bundle ID / package 名は `com.ichirou600.rakikara`。App Store Connect にアプリレコードを作成した後は変更できないので、勝手に変えない
-- 楽天アフィリエイトID未取得。リンク生成関数は ID を定数で外出しし、空でも動く形にする
+- 楽天アフィリエイトID未取得。`lib/logic/rakuten_search.dart` の `RakutenSearch.affiliateId` に `--dart-define=RAKUTEN_AFFILIATE_ID=xxxx` で差し込む。空でも素の検索URLとして動く
 
 ## コンテンツ（静的JSON）
 

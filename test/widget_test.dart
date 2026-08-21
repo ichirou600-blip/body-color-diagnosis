@@ -255,6 +255,32 @@ void main() {
     expect(find.text('この画像をシェアする'), findsOneWidget);
   });
 
+  testWidgets('誕生日を登録すると星座が出る', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('誕生日を登録する'));
+    await tester.pumpAndSettle();
+    // ダイアログの初期表示は年選択ではなく日付グリッド。OK で初期値を確定する。
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('誕生日を変更する'), findsOneWidget);
+    expect(find.text('未診断'), findsNWidgets(2)); // 星座だけ埋まる
+  });
+
+  testWidgets('ホームから今日のおすすめを開ける', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('今日のおすすめを見る'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('今日のおすすめ'), findsOneWidget);
+    // 誕生日未登録なので登録をうながす
+    expect(find.textContaining('誕生日を登録すると'), findsOneWidget);
+  });
+
   testWidgets('マスタが壊れていればエラー表示になり、再試行できる', (tester) async {
     await tester.pumpWidget(buildApp(colorMaster: '{壊れたJSON'));
     await tester.pumpAndSettle();
