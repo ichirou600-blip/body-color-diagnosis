@@ -9,6 +9,7 @@ import '../models/user_profile.dart';
 import 'diagnosis_page.dart';
 import 'kokkaku_result_page.dart';
 import 'personal_color_result_page.dart';
+import 'share_page.dart';
 import 'style_match_card.dart';
 
 /// プロフィール更新の依頼。常に最新の値を受け取って新しい値を返す。
@@ -146,6 +147,18 @@ class HomePage extends StatelessWidget {
                 profile.kokkaku == null ? '骨格診断をはじめる' : '骨格を診断しなおす',
               ),
             ),
+            if (!profile.isEmpty) ...[
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => SharePage(masters: masters, profile: profile),
+                  ),
+                ),
+                icon: const Icon(Icons.ios_share),
+                label: const Text('結果をシェアする'),
+              ),
+            ],
             const SizedBox(height: 32),
             Text(
               '今日の占い・今日のおすすめは順次追加されます。',

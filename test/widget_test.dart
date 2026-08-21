@@ -230,6 +230,31 @@ void main() {
     expect(find.text('ウェーブ'), findsOneWidget);
   });
 
+  testWidgets('診断前はシェアの導線を出さない', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    expect(find.text('結果をシェアする'), findsNothing);
+  });
+
+  testWidgets('診断するとホームからシェア画面を開ける', (tester) async {
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+
+    await runDiagnosis(
+      tester,
+      startButton: 'パーソナルカラー診断をはじめる',
+      answer: (tester) => answerPersonalColor(tester, '春'),
+    );
+
+    await tester.tap(find.text('結果をシェアする'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('シェア'), findsOneWidget);
+    expect(find.text('#ラキカラ'), findsOneWidget);
+    expect(find.text('この画像をシェアする'), findsOneWidget);
+  });
+
   testWidgets('マスタが壊れていればエラー表示になり、再試行できる', (tester) async {
     await tester.pumpWidget(buildApp(colorMaster: '{壊れたJSON'));
     await tester.pumpAndSettle();
