@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+import '../ads/native_ad_card.dart';
+
 import '../data/master_data.dart';
 import '../models/enums.dart';
 import 'style_match_card.dart';
@@ -33,6 +36,7 @@ class PersonalColorResultPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('診断結果')),
+      bottomNavigationBar: const BannerAdSlot(),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
@@ -92,6 +96,7 @@ class PersonalColorResultPage extends StatelessWidget {
               personalColor: type,
               kokkaku: kokkaku,
             ),
+            const NativeAdCard(),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: () => Navigator.of(context).pop(),

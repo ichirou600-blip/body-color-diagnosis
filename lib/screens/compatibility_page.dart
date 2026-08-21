@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+
 import '../data/master_data.dart';
 import '../logic/compatibility.dart';
 import '../models/enums.dart';
@@ -63,6 +65,7 @@ class _CompatibilityPageState extends State<CompatibilityPage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('相性診断')),
+      bottomNavigationBar: const BannerAdSlot(),
       body: SafeArea(
         child: myZodiac == null
             ? const Center(

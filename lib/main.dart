@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'ads/ad_config.dart';
+import 'ads/ads_bootstrap.dart';
 import 'data/daily_fortune_source.dart';
 import 'data/fortune_source_factory.dart';
 import 'data/master_data.dart';
@@ -19,6 +21,7 @@ class RakikaraApp extends StatelessWidget {
     this.masterRepository = const MasterRepository(),
     this.profileRepository = const ProfileRepository(),
     this.fortuneSource,
+    this.adConfig,
   });
 
   final MasterRepository masterRepository;
@@ -26,6 +29,9 @@ class RakikaraApp extends StatelessWidget {
 
   /// 省略時は Firebase の初期化を試み、できなければ端末内の仮データに落ちる。
   final DailyFortuneSource? fortuneSource;
+
+  /// 省略時は広告SDKを初期化する。テストでは [AdConfig.disabled] を渡す。
+  final AdConfig? adConfig;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,7 @@ class RakikaraApp extends StatelessWidget {
         masterRepository: masterRepository,
         profileRepository: profileRepository,
         fortuneSource: fortuneSource,
+        adConfig: adConfig,
       ),
     );
   }
@@ -54,11 +61,13 @@ class AppRoot extends StatefulWidget {
     required this.masterRepository,
     required this.profileRepository,
     this.fortuneSource,
+    this.adConfig,
   });
 
   final MasterRepository masterRepository;
   final ProfileRepository profileRepository;
   final DailyFortuneSource? fortuneSource;
+  final AdConfig? adConfig;
 
   @override
   State<AppRoot> createState() => _AppRootState();
@@ -67,6 +76,7 @@ class AppRoot extends StatefulWidget {
 class _AppRootState extends State<AppRoot> {
   MasterData? _masters;
   DailyFortuneSource _fortuneSource = const LocalDailyFortuneSource();
+  AdConfig _adConfig = AdConfig.disabled;
   UserProfile _profile = const UserProfile();
   Object? _error;
   bool _loading = true;
@@ -84,11 +94,13 @@ class _AppRootState extends State<AppRoot> {
       final profile = await widget.profileRepository.load();
       final fortuneSource =
           widget.fortuneSource ?? await createDailyFortuneSource();
+      final adConfig = widget.adConfig ?? await initializeAds();
       if (!mounted) return;
       setState(() {
         _masters = masters;
         _profile = profile;
         _fortuneSource = fortuneSource;
+        _adConfig = adConfig;
         _error = null;
         _loading = false;
       });
@@ -139,11 +151,15 @@ class _AppRootState extends State<AppRoot> {
       );
     }
 
-    return HomePage(
-      masters: _masters!,
-      profile: _profile,
-      onProfileChanged: _updateProfile,
-      fortuneSource: _fortuneSource,
+    // 配下の画面はここから広告設定を受け取る。
+    return AdsScope(
+      config: _adConfig,
+      child: HomePage(
+        masters: _masters!,
+        profile: _profile,
+        onProfileChanged: _updateProfile,
+        fortuneSource: _fortuneSource,
+      ),
     );
   }
 }

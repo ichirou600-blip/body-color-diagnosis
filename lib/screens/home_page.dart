@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+
 import '../data/daily_fortune_source.dart';
 import '../data/master_data.dart';
 import '../logic/diagnosis_scoring.dart';
@@ -139,6 +141,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('ラキカラ')),
+      bottomNavigationBar: const BannerAdSlot(),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),

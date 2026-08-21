@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+
 import '../logic/diagnosis_scoring.dart';
 import '../models/master_models.dart';
 
@@ -68,6 +70,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
         title: Text(widget.title),
         leading: BackButton(onPressed: _back),
       ),
+      bottomNavigationBar: const BannerAdSlot(),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,7 +90,9 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
             const SizedBox(height: 16),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                // 選択肢を連打する画面なので、下端の広告と隣接させない。
+                // 誤タップは AdMob の無効トラフィック扱いになりうる。
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
                 children: [
                   for (final choice in _question.choices)
                     Padding(

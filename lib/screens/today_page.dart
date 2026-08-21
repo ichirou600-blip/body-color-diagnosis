@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../ads/banner_ad_slot.dart';
+import '../ads/native_ad_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../data/daily_fortune_source.dart';
@@ -105,6 +108,7 @@ class _TodayPageState extends State<TodayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('今日のおすすめ')),
+      bottomNavigationBar: const BannerAdSlot(),
       body: SafeArea(child: _buildBody(context)),
     );
   }
@@ -164,6 +168,7 @@ class _TodayPageState extends State<TodayPage> {
           _SuggestionTile(card: card, onOpen: _open),
           const SizedBox(height: 12),
         ],
+        const NativeAdCard(),
       ],
     );
   }

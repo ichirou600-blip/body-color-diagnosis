@@ -68,5 +68,8 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<!-- AdMob アプリID。現在は Google 公式のテスト用ID。本番IDへの差し替えは Step 9。 -->
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3940256099942544~1458002511</string>
 </dict>
 </plist>

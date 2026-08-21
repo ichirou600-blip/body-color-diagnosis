@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rakikara/ads/ad_config.dart';
 import 'package:rakikara/data/daily_fortune_source.dart';
 import 'package:rakikara/data/master_repository.dart';
 import 'package:rakikara/main.dart';
@@ -43,6 +44,9 @@ void main() {
       // 既定では Firebase の初期化を試みるが、その非同期処理は
       // testWidgets の FakeAsync 下で完了しない。取得元を明示して回避する。
       fortuneSource: const LocalDailyFortuneSource(),
+      // 広告SDKの初期化も FakeAsync 下では完了しないため無効にしておく。
+      // 広告ウィジェットが何も描かないことは test/ads/ で確認している。
+      adConfig: AdConfig.disabled,
     );
   }
 

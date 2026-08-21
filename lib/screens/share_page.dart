@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ads/banner_ad_slot.dart';
+
 import '../data/master_data.dart';
 import '../logic/share_image.dart';
 import '../models/user_profile.dart';
@@ -64,6 +66,7 @@ class _SharePageState extends State<SharePage> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('シェア')),
+      bottomNavigationBar: const BannerAdSlot(),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
