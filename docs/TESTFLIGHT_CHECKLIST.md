@@ -63,11 +63,22 @@ https://developer.apple.com/programs/ から加入する（有料・年間更新
 
 ### B-2. App Store Connect の連携を登録する
 
-1. Codemagic の **Teams → Integrations → App Store Connect** を開く
-2. 「Add key」で A-4 の値を入れる
-   - **Name: `RAKIKARA_ASC_KEY`**（この名前で `codemagic.yaml` が参照している。
-     別名にするなら `codemagic.yaml` の `app_store_connect:` も合わせて変える）
-   - Issuer ID / Key ID / `.p8` ファイル
+1. 左メニューの **Teams** を開く
+2. **チームは作らない。**一覧に並んでいる**自分の個人アカウント**をクリックする
+   （「Create team」を押すと不要なチーム作成フォームが出る。× で閉じてよい）
+3. **Integrations** を開き、**Developer Portal** の **Connect** を押す
+4. A-4 で控えた値を入れる
+
+| 項目 | 値 |
+|---|---|
+| App Store Connect API key name | **`RAKIKARA_ASC_KEY`** |
+| Issuer ID | A-4 の Issuer ID |
+| Key ID | A-4 の Key ID |
+| API key | A-4 の `.p8` ファイル |
+
+**この key name を `codemagic.yaml` の `app_store_connect:` が参照している。**
+別名にするなら `codemagic.yaml` 側も合わせて変える。
+登録後の追加・削除は同じ画面の「Manage keys」から。
 
 ### B-3. codemagic.yaml を使う設定にする
 

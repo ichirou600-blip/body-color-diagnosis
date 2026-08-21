@@ -35,8 +35,11 @@
 ## 2. Codemagic 側の準備
 
 1. Codemagic に GitHub でサインイン → **このリポジトリを接続**
-2. **Teams > Integrations > App Store Connect** に、1-4 で取得した Issuer ID / Key ID / `.p8` を登録
+2. **Teams** を開き、**チームは作らずに一覧の「自分の個人アカウント」をクリック** →
+   **Integrations** → **Developer Portal** の **Connect** で、1-4 で取得した
+   Issuer ID / Key ID / `.p8` を登録
    - ここで付ける**キー名を `RAKIKARA_ASC_KEY` にする**。別名にする場合は `codemagic.yaml` の `app_store_connect:` の値を合わせて変更する
+   - チーム作成は複数人で使うための機能で、今回は不要
 3. アプリ設定を **「codemagic.yaml を使う」** に切り替える（UI 設定ではなくリポジトリの yaml を読ませる）
 4. `codemagic.yaml` の `TODO:` を2箇所置き換える
    - `app_store_connect: RAKIKARA_ASC_KEY` … 2 で付けたキー名
