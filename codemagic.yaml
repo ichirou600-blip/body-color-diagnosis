@@ -35,6 +35,10 @@ workflows:
           cd functions
           npm ci
           npm run typecheck
+      # Podfile はリポジトリに置かず Flutter に生成させる。
+      # このステップを飛ばすと Podfile が無い状態で pod install が空振りする。
+      - name: Prepare iOS project
+        script: flutter build ios --config-only --release --no-codesign
       - name: Install CocoaPods dependencies
         script: find . -name "Podfile" -execdir pod install \;
       - name: Apply provisioning profiles to Xcode project

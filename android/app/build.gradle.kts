@@ -19,7 +19,9 @@ android {
         applicationId = "com.ichirou600.rakikara"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // google_mobile_ads が API 24 以上を要求する。
+        // Flutter の既定値に依存させず、要求元がわかる形で固定しておく。
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
