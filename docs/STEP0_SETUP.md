@@ -45,6 +45,50 @@
    - `app_store_connect: RAKIKARA_ASC_KEY` … 2 で付けたキー名
    - `recipients: - your-address@example.com` … ビルド通知の宛先
 
+
+### 3. 配布証明書の秘密鍵を用意する
+
+Codemagic が iOS の配布証明書を作るには、その証明書に対応する**秘密鍵**が要る。
+これが無いと `Cannot save Signing Certificates without certificate private key` となり、
+署名ファイルが1つも用意されないまま `Build ipa` まで進んで落ちる。
+
+一度作れば以降ずっと使い回せる。
+
+**1. 秘密鍵を作る**（Windows のコマンドプロンプト、macOS / Linux のターミナル）
+
+```sh
+ssh-keygen -t rsa -b 2048 -m PEM -f cert_key
+```
+
+パスフレーズを2回聞かれるので、**どちらも何も入力せず Enter**。
+実行したフォルダに `cert_key`（秘密鍵）と `cert_key.pub` ができる。
+
+**2. `cert_key` の中身をすべてコピーする**
+
+メモ帳などで開き、`-----BEGIN RSA PRIVATE KEY-----` から
+`-----END RSA PRIVATE KEY-----` までを、改行も含めて全部コピーする。
+`cert_key.pub` のほうではないので注意。
+
+**3. Codemagic に環境変数として登録する**
+
+1. Applications → body-color-diagnosis → **Environment variables** タブ
+2. 以下を入力して Add
+
+| 項目 | 値 |
+|---|---|
+| Variable name | `CERTIFICATE_PRIVATE_KEY` |
+| Variable value | 2 でコピーした内容 |
+| Variable group | `certificate_credentials` |
+| Secure | **チェックする** |
+
+グループ名は `codemagic.yaml` の `groups:` が参照しているので、この綴りのまま入れること。
+
+**4. `cert_key` はローカルで保管する**
+
+紛失しても作り直せる（新しい証明書が作られるだけ）が、
+Apple の配布証明書は3つまでなので、無駄に増やさないほうがよい。
+**リポジトリにはコミットしないこと。**
+
 ## 3. ビルドと配信
 
 1. Codemagic で **`iOS - TestFlight`** ワークフローを実行

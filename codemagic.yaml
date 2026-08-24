@@ -20,6 +20,13 @@ workflows:
       app_store_connect: RAKIKARA_ASC_KEY
     environment:
       <<: *flutter_env
+      groups:
+        # CERTIFICATE_PRIVATE_KEY を入れた環境変数グループ。
+        # 配布証明書の秘密鍵。これが無いと証明書を保存できず、
+        # "Cannot save Signing Certificates without certificate private key" で
+        # 署名ファイルが1つも用意されないまま先に進んでしまう。
+        # 作り方は docs/STEP0_SETUP.md を参照。
+        - certificate_credentials
       vars:
         BUNDLE_ID: com.ichirou600.rakikara
     scripts:
@@ -52,6 +59,7 @@ workflows:
           keychain initialize
           app-store-connect fetch-signing-files "$BUNDLE_ID" \
             --type IOS_APP_STORE \
+            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
             --create
           keychain add-certificates
           xcode-project use-profiles

@@ -80,12 +80,44 @@ https://developer.apple.com/programs/ から加入する（有料・年間更新
 別名にするなら `codemagic.yaml` 側も合わせて変える。
 登録後の追加・削除は同じ画面の「Manage keys」から。
 
-### B-3. codemagic.yaml を使う設定にする
+### B-3. 配布証明書の秘密鍵を登録する
+
+Codemagic が iOS の配布証明書を作るには、対応する**秘密鍵**が要る。
+無いと `Cannot save Signing Certificates without certificate private key` で
+署名ファイルが用意されず、`Build ipa` まで進んでから落ちる。一度作れば使い回せる。
+
+**1. 秘密鍵を作る**（Windows はコマンドプロンプト、Mac はターミナル）
+
+```sh
+ssh-keygen -t rsa -b 2048 -m PEM -f cert_key
+```
+
+パスフレーズは2回とも**何も入れずに Enter**。`cert_key` と `cert_key.pub` ができる。
+
+**2. `cert_key`（`.pub` でないほう）をメモ帳で開き、全文をコピーする**
+
+`-----BEGIN RSA PRIVATE KEY-----` から `-----END RSA PRIVATE KEY-----` まで、改行も含めて。
+
+**3. Codemagic に登録する**
+
+Applications → body-color-diagnosis → **Environment variables** タブ
+
+| 項目 | 値 |
+|---|---|
+| Variable name | `CERTIFICATE_PRIVATE_KEY` |
+| Variable value | 2 でコピーした内容 |
+| Variable group | `certificate_credentials` |
+| Secure | **チェックする** |
+
+グループ名は `codemagic.yaml` が参照しているので、この綴りのままにすること。
+`cert_key` はローカルに保管し、**リポジトリにはコミットしない。**
+
+### B-4. codemagic.yaml を使う設定にする
 
 アプリの設定画面で **「Use codemagic.yaml」** に切り替える。
 UI 上のビルド設定ではなく、リポジトリの `codemagic.yaml` を読ませる。
 
-### B-4. 通知先メールを設定する
+### B-5. 通知先メールを設定する
 
 `codemagic.yaml` の以下を自分のメールアドレスに書き換えてコミットする。
 
