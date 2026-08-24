@@ -3,7 +3,7 @@
 Step 0 以降に広告・Firebase・シェアと実機でしか確認できない機能が積み上がっている。
 ここまでの分をまとめて実機で確認するための、**上から順にやる手順**。
 
-所要時間の目安: Apple の審査待ちを除いて 2〜3時間。Apple Developer Program の
+所要時間の目安: Apple の審査待ちを除いて 2〜3時間。ビルドは無料枠（月500分・macOS）で足りる。Apple Developer Program の
 加入審査に1〜2日かかることがあるので、まだなら **A-1 を最初に着手する**。
 
 コード側は準備済み。**Firebase と AdMob の設定は今回不要**（未設定でもアプリは動く）。
@@ -99,21 +99,28 @@ UI 上のビルド設定ではなく、リポジトリの `codemagic.yaml` を�
 
 ## C. ビルドと配信
 
-### C-1. まず Android ワークフローを回す
+### C-1. iOS ワークフローを回す
 
-**先に安いほうで通す。** macOS インスタンスは Codemagic の無料枠を早く消費するため。
+1. アプリ画面の **Start new build**
+2. Branch: `claude/diagnosis-fortune-app-spec-r3rt91`
+3. **Select file workflow: `iOS - TestFlight`**
+4. **Start new build**
 
-1. Codemagic で **`Android - build check`** を実行
-2. `flutter analyze` → `flutter test` → Functions の型チェック → APK ビルド が通ることを確認
-
-ここが赤い場合、iOS を回しても同じ理由で落ちる。先に直す。
-
-### C-2. iOS ワークフローを回す
-
-1. **`iOS - TestFlight`** を実行
-2. 署名 → `flutter build ipa` → TestFlight へのアップロードまで自動
-
+署名 → `flutter build ipa` → TestFlight へのアップロードまで自動。
 ビルドは15〜30分程度かかる（Firebase の Pod が多いため初回は長い）。
+
+`analyze` / `test` / Functions の型チェックは iOS ワークフローの先頭で走るので、
+コード側に問題があればビルドの早い段階で止まる。**Android を先に回す必要はない。**
+
+> 無料プランで使えるインスタンスは **`mac_mini_m2`（macOS）だけ**で、
+> 月500分まで。Android ワークフローも同じ macOS 上で動くため、
+> 先に回しても消費が減るわけではない。Android の APK 確認は
+> Google Play に出す Step 9 の段階でよい。
+
+### C-2. （任意）Android ワークフロー
+
+`Android - build check` は APK が生成できることの確認用。
+Play への配信とリリース署名は Step 9 で追加する。
 
 ### C-3. TestFlight の設定
 
@@ -180,4 +187,5 @@ iPhone に TestFlight アプリを入れて、ラキカラをインストール�
 | TestFlight で配布できない | C-3 の「テスト情報」が未入力 |
 | ビルド番号の重複で弾かれる | 同じビルド番号で2回アップロードしている。再実行ではなく新規ビルドとして流す |
 | 起動直後に落ちる | ログを送ってほしい。Firebase / AdMob の初期化失敗は握りつぶす作りなので、別の原因の可能性が高い |
-| 無料枠を使い切りそう | macOS インスタンスの消費が早い。C-1 の Android ワークフローで先に通してから iOS を回す |
+| The selected instance type is not available with the current billing plan | 無料プランで使えるのは `mac_mini_m2` のみ。`linux_x2` などは課金を有効にしたアカウント専用 |
+| 無料枠を使い切りそう | 無料枠は月500分。失敗ビルドを繰り返さないよう、ログで原因を特定してから回し直す |

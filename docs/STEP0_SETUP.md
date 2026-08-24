@@ -63,7 +63,7 @@
 | TestFlight で「輸出コンプライアンス」を毎回聞かれる | `Info.plist` に `ITSAppUsesNonExemptEncryption = false` を設定済みなので本来は出ない。出る場合は値が消えていないか確認（HTTPS のみの利用なので免除対象） |
 | TestFlight でビルドが配布できない | 「テスト情報」（連絡先・フィードバックメール）が未入力だと配布できない |
 | ビルド番号の重複で弾かれる | 同じ `BUILD_NUMBER` で2回上げている。Codemagic の再実行ではなく新規ビルドとして流す |
-| Codemagic の無料枠を使い切る | macOS インスタンスは消費が早い。失敗ビルドを繰り返さないよう、まず `Android - build check` で `analyze`/`test` を通してから iOS を回す |
+| Codemagic の無料枠を使い切る | 無料枠は月500分で、使えるインスタンスは `mac_mini_m2`（macOS）のみ。`linux_x2` などを指定すると「not available with the current billing plan」で落ちる |
 
 ## 5. Step 0 では**やらないこと**
 
