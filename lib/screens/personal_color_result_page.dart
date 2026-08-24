@@ -6,6 +6,8 @@ import '../ads/native_ad_card.dart';
 import '../data/master_data.dart';
 import '../models/enums.dart';
 import 'style_match_card.dart';
+import '../theme/app_theme.dart';
+import '../widgets/soft_widgets.dart';
 
 /// パーソナルカラー診断の結果画面。
 ///
@@ -37,82 +39,107 @@ class PersonalColorResultPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('診断結果')),
       bottomNavigationBar: const BannerAdSlot(),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text('あなたのパーソナルカラーは', style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 4),
-            Text(type.label, style: theme.textTheme.displaySmall),
-            const SizedBox(height: 24),
-            if (attribute != null) ...[
-              Text(attribute.description, style: theme.textTheme.bodyLarge),
-              const SizedBox(height: 24),
-              if (attribute.keywords.isNotEmpty) ...[
-                Text('キーワード', style: theme.textTheme.titleMedium),
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    for (final keyword in attribute.keywords) Chip(label: Text(keyword)),
-                  ],
+      body: GradientBackground(
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+            children: [
+              HeroBadge(
+                label: 'あなたのパーソナルカラーは',
+                value: type.label,
+                colors: const [AppColors.blush, AppColors.lavender],
+              ),
+              const SizedBox(height: 20),
+              if (attribute != null) ...[
+                SoftCard(
+                  child: Text(
+                    attribute.description,
+                    style: theme.textTheme.bodyLarge,
+                  ),
                 ),
-                const SizedBox(height: 24),
-              ],
-              if (attribute.materials.isNotEmpty) ...[
-                Text('似合う素材', style: theme.textTheme.titleMedium),
-                const SizedBox(height: 8),
-                Text(attribute.materials.join('・')),
-                const SizedBox(height: 24),
-              ],
-            ],
-            if (colors.isNotEmpty) ...[
-              Text('似合う色', style: theme.textTheme.titleMedium),
-              const SizedBox(height: 8),
-              for (final color in colors)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
+                const SizedBox(height: 16),
+                if (attribute.keywords.isNotEmpty) ...[
+                  const SectionLabel('キーワード'),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
                     children: [
-                      Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: Color(color.argb),
-                          shape: BoxShape.circle,
-                          border: Border.all(color: theme.dividerColor),
+                      for (var i = 0; i < attribute.keywords.length; i++)
+                        Chip(
+                          label: Text(attribute.keywords[i]),
+                          backgroundColor: AppColors
+                              .accentsSoft[i % AppColors.accentsSoft.length],
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Text(color.name),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                ],
+                if (attribute.materials.isNotEmpty) ...[
+                  const SectionLabel('似合う素材', color: AppColors.lavender),
+                  const SizedBox(height: 10),
+                  SoftCard(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      attribute.materials.join('・'),
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ],
+              if (colors.isNotEmpty) ...[
+                const SectionLabel('似合う色', color: AppColors.mint),
+                const SizedBox(height: 10),
+                SoftCard(
+                  padding: const EdgeInsets.all(16),
+                  child: Wrap(
+                    spacing: 14,
+                    runSpacing: 14,
+                    children: [
+                      for (final color in colors)
+                        SizedBox(
+                          width: 66,
+                          child: Column(
+                            children: [
+                              ColorDot(argb: color.argb, size: 40),
+                              const SizedBox(height: 6),
+                              Text(
+                                color.name,
+                                textAlign: TextAlign.center,
+                                style: theme.textTheme.labelSmall,
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                 ),
-              const SizedBox(height: 24),
-            ],
-            StyleMatchCard(
-              masters: masters,
-              personalColor: type,
-              kokkaku: kokkaku,
-            ),
-            const NativeAdCard(),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('ホームに戻る'),
-            ),
-            if (onRetry != null) ...[
-              const SizedBox(height: 8),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  onRetry!();
-                },
-                child: const Text('もう一度診断する'),
+                const SizedBox(height: 20),
+              ],
+              StyleMatchCard(
+                masters: masters,
+                personalColor: type,
+                kokkaku: kokkaku,
               ),
+              const NativeAdCard(),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('ホームに戻る'),
+              ),
+              if (onRetry != null) ...[
+                const SizedBox(height: 10),
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    onRetry!();
+                  },
+                  child: const Text('もう一度診断する'),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

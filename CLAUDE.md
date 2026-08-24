@@ -26,6 +26,14 @@
 5. **占いは娯楽目的**である旨の注記を、占い表示画面に必ず入れる
 6. ストアの「子供向け／ファミリー」カテゴリには登録しない
 
+## デザイン
+
+- 配色・字送り・角丸は `lib/theme/app_theme.dart` に集約する。画面ごとに色や数値を直書きしない
+- 共通パーツは `lib/widgets/soft_widgets.dart`（背景・カード・見出し・色の丸・大見出しバッジ）
+- フォントは丸ゴシック（M PLUS Rounded 1c）を同梱。端末のフォントに任せない
+- アプリアイコンは `tool/icon/make_icon.py` で生成し、`dart run flutter_launcher_icons` で反映する
+- 実機なしで画面を確認するには `flutter test tool/screenshots/screens_test.dart --update-goldens`
+
 ## ローカル検証コマンド
 
 コード変更後は必ず両方を通してから完了報告する（CI でも同じものが走る）:

@@ -31,7 +31,8 @@ void main() {
     await tester.pumpWidget(page());
     await tester.pumpAndSettle();
 
-    expect(find.text('あなたは牡牛座'), findsOneWidget);
+    expect(find.text('あなたの星座'), findsOneWidget);
+    expect(find.text('牡牛座'), findsOneWidget);
 
     await tester.tap(find.text('相手の誕生日を入れる'));
     await tester.pumpAndSettle();

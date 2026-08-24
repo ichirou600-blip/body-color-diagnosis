@@ -5,6 +5,8 @@ import '../ads/banner_ad_slot.dart';
 import '../data/master_data.dart';
 import '../logic/compatibility.dart';
 import '../models/enums.dart';
+import '../theme/app_theme.dart';
+import '../widgets/soft_widgets.dart';
 
 /// 相性診断。自分の星座 × 相手の誕生日から相性テキストを出す。
 class CompatibilityPage extends StatefulWidget {
@@ -66,68 +68,92 @@ class _CompatibilityPageState extends State<CompatibilityPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('相性診断')),
       bottomNavigationBar: const BannerAdSlot(),
-      body: SafeArea(
-        child: myZodiac == null
-            ? const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Text('自分の誕生日を登録すると、相性診断ができます。'),
-                ),
-              )
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  Text('あなたは${myZodiac.label}', style: theme.textTheme.titleMedium),
-                  const SizedBox(height: 16),
-                  Text(
-                    '相手の誕生日を入れると、ふたりの相性が出ます。'
-                    '入れた誕生日は保存も送信もされません。',
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 16),
-                  FilledButton(
-                    onPressed: _pickPartnerBirthday,
-                    child: Text(
-                      _partnerZodiac == null ? '相手の誕生日を入れる' : '相手を変える',
+      body: GradientBackground(
+        child: SafeArea(
+          child: myZodiac == null
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: SoftCard(
+                      child: Text(
+                        '自分の誕生日を登録すると、相性診断ができます。',
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyMedium,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  if (_notFound)
-                    Text(
-                      'この組み合わせのテキストがまだ準備できていません。',
-                      style: theme.textTheme.bodyMedium,
+                )
+              : ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                  children: [
+                    HeroBadge(
+                      label: 'あなたの星座',
+                      value: myZodiac.label,
+                      colors: const [AppColors.blush, AppColors.butter],
                     ),
-                  if (_result case final result?) ...[
-                    Card(
-                      margin: EdgeInsets.zero,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
+                    const SizedBox(height: 20),
+                    SoftCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '相手の誕生日を入れると、ふたりの相性が出ます。'
+                            '入れた誕生日は保存も送信もされません。',
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                          const SizedBox(height: 16),
+                          FilledButton(
+                            onPressed: _pickPartnerBirthday,
+                            child: Text(
+                              _partnerZodiac == null ? '相手の誕生日を入れる' : '相手を変える',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    if (_notFound)
+                      SoftCard(
+                        child: Text(
+                          'この組み合わせのテキストがまだ準備できていません。',
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      ),
+                    if (_result case final result?) ...[
+                      SoftCard(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '${result.myZodiac.label} × ${result.partnerZodiac.label}',
-                              style: theme.textTheme.titleLarge,
+                            Row(
+                              children: [
+                                Text(
+                                  '${result.myZodiac.label} × ${result.partnerZodiac.label}',
+                                  style: theme.textTheme.headlineSmall,
+                                ),
+                              ],
                             ),
                             if (result.isSameZodiac) ...[
-                              const SizedBox(height: 4),
-                              Text('同じ星座同士', style: theme.textTheme.labelMedium),
+                              const SizedBox(height: 6),
+                              Chip(
+                                label: const Text('同じ星座同士'),
+                                backgroundColor: AppColors.butterSoft,
+                              ),
                             ],
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 14),
                             Text(result.text, style: theme.textTheme.bodyLarge),
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    // docs/SPEC.md §8: 占いは娯楽目的である旨を必ず添える
-                    Text(
-                      '占いの内容は娯楽目的のものです。',
-                      style: theme.textTheme.bodySmall,
-                    ),
+                      const SizedBox(height: 10),
+                      // docs/SPEC.md §8: 占いは娯楽目的である旨を必ず添える
+                      Text(
+                        '占いの内容は娯楽目的のものです。',
+                        style: theme.textTheme.bodySmall,
+                      ),
+                    ],
                   ],
-                ],
-              ),
+                ),
+        ),
       ),
     );
   }

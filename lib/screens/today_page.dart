@@ -9,6 +9,8 @@ import '../data/master_data.dart';
 import '../logic/suggestion_engine.dart';
 import '../models/daily_fortune.dart';
 import '../models/user_profile.dart';
+import '../theme/app_theme.dart';
+import '../widgets/soft_widgets.dart';
 
 /// 今日の占いと、そこから作った提案カードを出す画面。
 ///
@@ -109,7 +111,7 @@ class _TodayPageState extends State<TodayPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('今日のおすすめ')),
       bottomNavigationBar: const BannerAdSlot(),
-      body: SafeArea(child: _buildBody(context)),
+      body: GradientBackground(child: SafeArea(child: _buildBody(context))),
     );
   }
 
@@ -146,24 +148,50 @@ class _TodayPageState extends State<TodayPage> {
     }
 
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
       children: [
-        Text('${fortune.zodiac.label}の今日', style: theme.textTheme.titleMedium),
-        const SizedBox(height: 8),
-        Card(
-          margin: EdgeInsets.zero,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(fortune.message, style: theme.textTheme.bodyLarge),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.lavender, AppColors.blush],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.lavender.withValues(alpha: 0.32),
+                blurRadius: 22,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${fortune.zodiac.label}の今日',
+                style: theme.textTheme.titleMedium?.copyWith(color: Colors.white),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                fortune.message,
+                style: theme.textTheme.bodyLarge?.copyWith(color: Colors.white),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         // docs/SPEC.md §8: 占いは娯楽目的である旨を必ず添える
         Text(
           '占いの内容は娯楽目的のものです。',
           style: theme.textTheme.bodySmall,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 26),
+        const SectionLabel('今日のおすすめ', color: AppColors.mint),
+        const SizedBox(height: 12),
         for (final card in _cards) ...[
           _SuggestionTile(card: card, onOpen: _open),
           const SizedBox(height: 12),
@@ -184,7 +212,9 @@ class _Centered extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: children),
+        child: SoftCard(
+          child: Column(mainAxisSize: MainAxisSize.min, children: children),
+        ),
       ),
     );
   }
@@ -202,50 +232,45 @@ class _SuggestionTile extends StatelessWidget {
     final color = card.color;
     final url = card.searchUrl;
 
-    return Card(
-      margin: EdgeInsets.zero,
-      color: card.highlighted ? theme.colorScheme.primaryContainer : null,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                if (color != null) ...[
-                  Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: Color(color.argb),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: theme.dividerColor),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                ],
-                Expanded(
-                  child: Text(card.title, style: theme.textTheme.titleMedium),
-                ),
-                if (card.highlighted)
-                  Text('今日の推し', style: theme.textTheme.labelSmall),
+    return SoftCard(
+      color: card.highlighted ? AppColors.butterSoft : Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              if (color != null) ...[
+                ColorDot(argb: color.argb, size: 32),
+                const SizedBox(width: 12),
               ],
-            ),
-            const SizedBox(height: 8),
-            Text(card.body, style: theme.textTheme.bodyMedium),
-            if (url != null) ...[
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: OutlinedButton.icon(
-                  onPressed: () => onOpen(url),
-                  icon: const Icon(Icons.search, size: 18),
-                  label: const Text('楽天でさがす'),
-                ),
+              Expanded(
+                child: Text(card.title, style: theme.textTheme.titleMedium),
               ),
+              if (card.highlighted)
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.butter,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    '今日の推し',
+                    style: theme.textTheme.labelSmall?.copyWith(color: Colors.white),
+                  ),
+                ),
             ],
+          ),
+          const SizedBox(height: 12),
+          Text(card.body, style: theme.textTheme.bodyMedium),
+          if (url != null) ...[
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: () => onOpen(url),
+              icon: const Icon(Icons.search, size: 18),
+              label: const Text('楽天でさがす'),
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

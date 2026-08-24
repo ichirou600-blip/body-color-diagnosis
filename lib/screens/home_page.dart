@@ -16,6 +16,8 @@ import 'personal_color_result_page.dart';
 import 'share_page.dart';
 import 'today_page.dart';
 import 'style_match_card.dart';
+import '../theme/app_theme.dart';
+import '../widgets/soft_widgets.dart';
 
 /// プロフィール更新の依頼。常に最新の値を受け取って新しい値を返す。
 typedef ProfileUpdater = Future<void> Function(
@@ -138,118 +140,280 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final missing = masters.missingContentReport();
+    final diagnosed = profile.personalColor != null || profile.kokkaku != null;
 
     return Scaffold(
       appBar: AppBar(title: const Text('ラキカラ')),
       bottomNavigationBar: const BannerAdSlot(),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text('あなたのタイプ', style: theme.textTheme.titleMedium),
-            const SizedBox(height: 8),
-            _ProfileRow(label: 'パーソナルカラー', value: profile.personalColor?.label),
-            _ProfileRow(label: '骨格', value: profile.kokkaku?.label),
-            _ProfileRow(label: '星座', value: profile.zodiac?.label),
-            const SizedBox(height: 24),
-            FilledButton.icon(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => TodayPage(
-                    masters: masters,
-                    profile: profile,
-                    fortuneSource: fortuneSource,
-                  ),
-                ),
+      body: GradientBackground(
+        child: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+            children: [
+              _ProfileHeader(profile: profile),
+              const SizedBox(height: 20),
+              StyleMatchCard(
+                masters: masters,
+                personalColor: profile.personalColor,
+                kokkaku: profile.kokkaku,
               ),
-              icon: const Icon(Icons.auto_awesome),
-              label: const Text('今日のおすすめを見る'),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => CompatibilityPage(
-                    masters: masters,
-                    myZodiac: profile.zodiac,
-                  ),
-                ),
-              ),
-              icon: const Icon(Icons.favorite_border),
-              label: const Text('相性をしらべる'),
-            ),
-            const SizedBox(height: 24),
-            StyleMatchCard(
-              masters: masters,
-              personalColor: profile.personalColor,
-              kokkaku: profile.kokkaku,
-            ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: () => _startPersonalColor(Navigator.of(context)),
-              child: Text(
-                profile.personalColor == null
+              const SizedBox(height: 28),
+              const SectionLabel('しんだんする', color: AppColors.blush),
+              const SizedBox(height: 12),
+              _MenuTile(
+                emoji: '🎨',
+                title: 'パーソナルカラー診断',
+                subtitle: profile.personalColor == null
+                    ? '10問で似合う色がわかる'
+                    : '結果: ${profile.personalColor!.label}',
+                tint: AppColors.blushSoft,
+                done: profile.personalColor != null,
+                actionLabel: profile.personalColor == null
                     ? 'パーソナルカラー診断をはじめる'
                     : 'パーソナルカラーを診断しなおす',
+                onTap: () => _startPersonalColor(Navigator.of(context)),
               ),
-            ),
-            const SizedBox(height: 12),
-            FilledButton.tonal(
-              onPressed: () => _startKokkaku(Navigator.of(context)),
-              child: Text(
-                profile.kokkaku == null ? '骨格診断をはじめる' : '骨格を診断しなおす',
-              ),
-            ),
-            const SizedBox(height: 12),
-            FilledButton.tonal(
-              onPressed: () => _pickBirthday(context),
-              child: Text(
-                profile.birthday == null ? '誕生日を登録する' : '誕生日を変更する',
-              ),
-            ),
-            if (!profile.isEmpty) ...[
               const SizedBox(height: 12),
-              OutlinedButton.icon(
-                onPressed: () => Navigator.of(context).push(
+              _MenuTile(
+                emoji: '👗',
+                title: '骨格診断',
+                subtitle: profile.kokkaku == null
+                    ? '10問で似合うシルエットがわかる'
+                    : '結果: ${profile.kokkaku!.label}',
+                tint: AppColors.lavenderSoft,
+                done: profile.kokkaku != null,
+                actionLabel: profile.kokkaku == null ? '骨格診断をはじめる' : '骨格を診断しなおす',
+                onTap: () => _startKokkaku(Navigator.of(context)),
+              ),
+              const SizedBox(height: 12),
+              _MenuTile(
+                emoji: '🎂',
+                title: '誕生日',
+                subtitle: profile.zodiac == null
+                    ? '登録すると占いが読める'
+                    : profile.zodiac!.label,
+                tint: AppColors.butterSoft,
+                done: profile.birthday != null,
+                actionLabel:
+                    profile.birthday == null ? '誕生日を登録する' : '誕生日を変更する',
+                onTap: () => _pickBirthday(context),
+              ),
+              const SizedBox(height: 28),
+              const SectionLabel('あそぶ', color: AppColors.mint),
+              const SizedBox(height: 12),
+              _MenuTile(
+                emoji: '✨',
+                title: '今日のおすすめ',
+                subtitle: '運勢とラッキーカラーの掛け合わせ',
+                tint: AppColors.mintSoft,
+                actionLabel: '今日のおすすめを見る',
+                onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => SharePage(masters: masters, profile: profile),
+                    builder: (_) => TodayPage(
+                      masters: masters,
+                      profile: profile,
+                      fortuneSource: fortuneSource,
+                    ),
                   ),
                 ),
-                icon: const Icon(Icons.ios_share),
-                label: const Text('結果をシェアする'),
               ),
-            ],
-            const SizedBox(height: 32),
-            if (missing.isNotEmpty) ...[
-              const SizedBox(height: 24),
-              const Divider(),
-              const SizedBox(height: 8),
-              Text(
-                '※ コンテンツはまだ仮データです:\n'
-                '${missing.map((item) => '・$item').join('\n')}',
-                style: theme.textTheme.bodySmall,
+              const SizedBox(height: 12),
+              _MenuTile(
+                emoji: '💞',
+                title: '相性診断',
+                subtitle: '気になる人の誕生日でチェック',
+                tint: AppColors.blushSoft,
+                actionLabel: '相性をしらべる',
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => CompatibilityPage(
+                      masters: masters,
+                      myZodiac: profile.zodiac,
+                    ),
+                  ),
+                ),
               ),
+              if (diagnosed || profile.birthday != null) ...[
+                const SizedBox(height: 12),
+                _MenuTile(
+                  emoji: '📸',
+                  title: 'シェア',
+                  subtitle: '結果をカードにして送れる',
+                  tint: AppColors.lavenderSoft,
+                  actionLabel: '結果をシェアする',
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => SharePage(masters: masters, profile: profile),
+                    ),
+                  ),
+                ),
+              ],
+              if (missing.isNotEmpty) ...[
+                const SizedBox(height: 28),
+                Text(
+                  '※ コンテンツはまだ仮データです:\n'
+                  '${missing.map((item) => '・$item').join('\n')}',
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _ProfileRow extends StatelessWidget {
-  const _ProfileRow({required this.label, required this.value});
+/// 画面上部のプロフィール。3つのタイプを横並びのバッジで見せる。
+class _ProfileHeader extends StatelessWidget {
+  const _ProfileHeader({required this.profile});
 
-  final String label;
-  final String? value;
+  final UserProfile profile;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+    final theme = Theme.of(context);
+    return SoftCard(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('あなたのタイプ', style: theme.textTheme.titleMedium),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _ProfileRow(
+                label: 'カラー',
+                value: profile.personalColor?.label,
+                tint: AppColors.blushSoft,
+              ),
+              const SizedBox(width: 10),
+              _ProfileRow(
+                label: '骨格',
+                value: profile.kokkaku?.label,
+                tint: AppColors.lavenderSoft,
+              ),
+              const SizedBox(width: 10),
+              _ProfileRow(
+                label: '星座',
+                value: profile.zodiac?.label,
+                tint: AppColors.butterSoft,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// メニュー1件。絵文字・見出し・説明とボタンをまとめたカード。
+class _MenuTile extends StatelessWidget {
+  const _MenuTile({
+    required this.emoji,
+    required this.title,
+    required this.subtitle,
+    required this.tint,
+    required this.actionLabel,
+    required this.onTap,
+    this.done = false,
+  });
+
+  final String emoji;
+  final String title;
+  final String subtitle;
+  final Color tint;
+  final String actionLabel;
+  final VoidCallback onTap;
+  final bool done;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return SoftCard(
+      padding: const EdgeInsets.all(16),
+      onTap: onTap,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(label), Text(value ?? '未診断')],
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: tint,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Text(emoji, style: const TextStyle(fontSize: 24)),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(title, style: theme.textTheme.titleMedium),
+                    if (done) ...[
+                      const SizedBox(width: 6),
+                      const Icon(Icons.check_circle,
+                          size: 16, color: AppColors.mint),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Text(subtitle, style: theme.textTheme.bodySmall),
+              ],
+            ),
+          ),
+          // 見出しだけでなく操作の名前も残す。テストと読み上げの手がかりになる
+          Semantics(
+            button: true,
+            label: actionLabel,
+            child: const Icon(Icons.chevron_right, color: AppColors.inkMuted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileRow extends StatelessWidget {
+  const _ProfileRow({required this.label, required this.value, required this.tint});
+
+  final String label;
+  final String? value;
+  final Color tint;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isSet = value != null;
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          color: isSet ? tint : AppColors.line.withValues(alpha: 0.45),
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Column(
+          children: [
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelSmall,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              value ?? '未診断',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: isSet ? AppColors.ink : AppColors.inkMuted,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

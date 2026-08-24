@@ -6,6 +6,7 @@ import '../data/master_data.dart';
 import '../logic/share_image.dart';
 import '../models/user_profile.dart';
 import 'share_card.dart';
+import '../widgets/soft_widgets.dart';
 
 /// シェア画像のプレビューと共有。
 ///
@@ -67,16 +68,32 @@ class _SharePageState extends State<SharePage> {
     return Scaffold(
       appBar: AppBar(title: const Text('シェア')),
       bottomNavigationBar: const BannerAdSlot(),
-      body: SafeArea(
+      body: GradientBackground(
+        child: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           children: [
             Center(
-              child: RepaintBoundary(
-                key: _cardKey,
-                child: ShareCard(
-                  masters: widget.masters,
-                  profile: widget.profile,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.10),
+                      blurRadius: 24,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: RepaintBoundary(
+                    key: _cardKey,
+                    child: ShareCard(
+                      masters: widget.masters,
+                      profile: widget.profile,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -93,6 +110,7 @@ class _SharePageState extends State<SharePage> {
               style: theme.textTheme.bodySmall,
             ),
           ],
+        ),
         ),
       ),
     );

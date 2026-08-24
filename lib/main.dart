@@ -9,6 +9,8 @@ import 'data/master_repository.dart';
 import 'data/profile_repository.dart';
 import 'models/user_profile.dart';
 import 'screens/home_page.dart';
+import 'theme/app_theme.dart';
+import 'widgets/soft_widgets.dart';
 
 void main() {
   runApp(const RakikaraApp());
@@ -37,10 +39,7 @@ class RakikaraApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ラキカラ',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF48FB1)),
-        useMaterial3: true,
-      ),
+      theme: buildAppTheme(),
       home: AppRoot(
         masterRepository: masterRepository,
         profileRepository: profileRepository,
@@ -127,24 +126,39 @@ class _AppRootState extends State<AppRoot> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: GradientBackground(
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      );
     }
 
     final error = _error;
     if (error != null) {
       return Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('マスタの読み込みに失敗しました'),
-                const SizedBox(height: 12),
-                Text('$error', textAlign: TextAlign.center),
-                const SizedBox(height: 24),
-                FilledButton(onPressed: _load, child: const Text('再試行')),
-              ],
+        body: GradientBackground(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: SoftCard(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'マスタの読み込みに失敗しました',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      '\$error',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 24),
+                    FilledButton(onPressed: _load, child: const Text('再試行')),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

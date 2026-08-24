@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/master_data.dart';
+import '../theme/app_theme.dart';
 import '../models/user_profile.dart';
 
 /// シェア画像として書き出す結果カード。
@@ -36,7 +37,7 @@ class ShareCard extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFFFF1F4), Color(0xFFF3EEFB)],
+            colors: AppColors.backgroundGradient,
           ),
         ),
         child: Padding(
@@ -44,19 +45,34 @@ class ShareCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'ラキカラ',
-                style: TextStyle(
-                  fontSize: 14,
-                  letterSpacing: 4,
-                  color: Color(0xFF8A7A85),
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                children: [
+                  Container(
+                    width: 22,
+                    height: 22,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [AppColors.blush, AppColors.lavender],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'ラキカラ',
+                    style: TextStyle(
+                      fontSize: 15,
+                      letterSpacing: 3,
+                      color: AppColors.ink,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               const Text(
                 'わたしのタイプ',
-                style: TextStyle(fontSize: 13, color: Color(0xFF8A7A85)),
+                style: TextStyle(fontSize: 13, color: AppColors.inkMuted),
               ),
               const SizedBox(height: 12),
               _Line(label: 'パーソナルカラー', value: pc?.label),
@@ -68,7 +84,7 @@ class ShareCard extends StatelessWidget {
               if (colors.isNotEmpty) ...[
                 const Text(
                   '似合う色',
-                  style: TextStyle(fontSize: 13, color: Color(0xFF8A7A85)),
+                  style: TextStyle(fontSize: 13, color: AppColors.inkMuted),
                 ),
                 const SizedBox(height: 10),
                 Wrap(
@@ -83,7 +99,7 @@ class ShareCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Color(color.argb),
                           shape: BoxShape.circle,
-                          border: Border.all(color: const Color(0x22000000)),
+                          border: Border.all(color: Colors.white, width: 2),
                         ),
                       ),
                   ],
@@ -92,7 +108,7 @@ class ShareCard extends StatelessWidget {
               ],
               const Text(
                 '#ラキカラ',
-                style: TextStyle(fontSize: 12, color: Color(0xFF8A7A85)),
+                style: TextStyle(fontSize: 12, color: AppColors.inkMuted),
               ),
             ],
           ),
@@ -118,7 +134,7 @@ class _Line extends StatelessWidget {
           width: 116,
           child: Text(
             label,
-            style: const TextStyle(fontSize: 12, color: Color(0xFF8A7A85)),
+            style: const TextStyle(fontSize: 12, color: AppColors.inkMuted),
           ),
         ),
         Expanded(
@@ -127,7 +143,7 @@ class _Line extends StatelessWidget {
             style: TextStyle(
               fontSize: value == null ? 16 : 22,
               fontWeight: FontWeight.w700,
-              color: value == null ? const Color(0xFFB0A4AC) : const Color(0xFF3B2F36),
+              color: value == null ? AppColors.inkMuted : AppColors.ink,
             ),
           ),
         ),

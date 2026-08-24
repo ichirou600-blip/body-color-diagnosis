@@ -53,6 +53,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   fake_cloud_firestore: ^4.2.0
+  flutter_launcher_icons: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -68,6 +69,16 @@ flutter:
   # 静的コンテンツ。形式は docs/DATA_SCHEMA.md を参照
   assets:
     - assets/
+
+  # 丸ゴシック。UI の印象を決める要素なので端末のフォントに任せず同梱する。
+  # M PLUS Rounded 1c / SIL Open Font License 1.1（assets/fonts/OFL.txt）
+  fonts:
+    - family: MPLUSRounded1c
+      fonts:
+        - asset: assets/fonts/MPLUSRounded1c-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/MPLUSRounded1c-Bold.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -99,3 +110,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# アプリアイコン。元画像は tool/icon/ にあり、tool/icon/make_icon.py で生成する。
+#   dart run flutter_launcher_icons
+flutter_launcher_icons:
+  image_path: "tool/icon/app_icon.png"
+  ios: true
+  # iOS のマーケティング用アイコンは透過を持てない
+  remove_alpha_ios: true
+  android: true
+  adaptive_icon_background: "#FBF6FA"
+  adaptive_icon_foreground: "tool/icon/app_icon_foreground.png"
