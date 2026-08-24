@@ -74,8 +74,15 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true
-        # Step 0 では内部テスターにだけ配る。審査提出は Step 9。
+        # アップロードは常に行われる。内部テスト（自分の実機で試す用）は
+        # ベータ審査が不要なので、この時点で TestFlight に出せる。
+        #
+        # submit_to_testflight: true は「外部テスト用のベータ審査に提出する」指定。
+        # 外部テストには App Store Connect 側で Beta App Description（テスト情報）の
+        # 入力が必須で、未入力だと 422 Beta App Description is missing で失敗する。
+        # 外部テスターに配る段階（Step 9）で、説明文を入れてから true にする。
+        submit_to_testflight: false
+        # ストア審査への提出は Step 9。
         submit_to_app_store: false
       email:
         recipients:
