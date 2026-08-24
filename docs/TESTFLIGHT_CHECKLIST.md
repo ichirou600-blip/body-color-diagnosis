@@ -181,7 +181,8 @@ iPhone に TestFlight アプリを入れて、ラキカラをインストール�
 
 | 症状 | 原因・対処 |
 |---|---|
-| 署名エラー（no matching profiles） | A-2 の App ID が未登録か、Bundle ID の綴りが違う。A-4 のキーの権限が App Manager か確認 |
+| No matching profiles found for bundle identifier ... | `codemagic.yaml` の `ios_signing`（手動アップロードした署名ファイルを選ぶ指定）では、無いプロファイルは作られない。API キーから `app-store-connect fetch-signing-files --create` で作らせる方式に変更済み |
+| 署名で別のエラーが出る | A-2 の App ID が未登録か Bundle ID の綴り違い、A-4 のキーが App Manager 権限でない、developer.apple.com に契約書の同意待ちバナーが出ている、のいずれか |
 | CocoaPods でバージョンエラー | Firebase は iOS 15.0 以上が必要。プロジェクトは 15.0 に設定済みなので、通常は起きない |
 | TestFlight にビルドが出てこない | 処理に最大30分かかる。App Store Connect の「アクティビティ」でエラーが出ていないか確認 |
 | TestFlight で配布できない | C-3 の「テスト情報」が未入力 |

@@ -20,9 +20,8 @@ workflows:
       app_store_connect: RAKIKARA_ASC_KEY
     environment:
       <<: *flutter_env
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.ichirou600.rakikara
+      vars:
+        BUNDLE_ID: com.ichirou600.rakikara
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
@@ -41,8 +40,21 @@ workflows:
         script: flutter build ios --config-only --release --no-codesign
       - name: Install CocoaPods dependencies
         script: find . -name "Podfile" -execdir pod install \;
-      - name: Apply provisioning profiles to Xcode project
-        script: xcode-project use-profiles
+      # 署名は App Store Connect API キーから自動生成する。
+      #
+      # environment.ios_signing の distribution_type / bundle_identifier は
+      # 「Codemagic に手動アップロード済みの署名ファイルから選ぶ」指定で、
+      # 無いものを作ってはくれない。新規アカウントでは
+      # "No matching profiles found for bundle identifier ..." で落ちる。
+      # --create を明示して、証明書とプロファイルを作らせる。
+      - name: Set up code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
       - name: Build ipa
         script: |
           flutter build ipa --release \
