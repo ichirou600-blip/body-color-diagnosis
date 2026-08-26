@@ -68,8 +68,8 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-	<!-- AdMob アプリID。現在は Google 公式のテスト用ID。本番IDへの差し替えは Step 9。 -->
+	<!-- AdMob アプリID（本番）。ユニットIDと違い --dart-define では渡せないので直書きする。 -->
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-4074648031071093~4534112070</string>
 </dict>
 </plist>
