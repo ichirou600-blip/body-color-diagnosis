@@ -41,8 +41,12 @@ void main() {
     birthday: DateTime(2008, 5, 14),
   );
 
+  /// ストア提出用の実寸。iPhone 6.9インチ（1290x2796）。
+  /// Google Play の携帯電話用（1080x1920以上）もこれで満たせる。
+  const storeSize = Size(1290, 2796);
+
   Future<void> shoot(WidgetTester tester, String name, Widget child) async {
-    tester.view.physicalSize = const Size(1170, 2400);
+    tester.view.physicalSize = storeSize;
     tester.view.devicePixelRatio = 3.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);

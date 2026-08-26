@@ -21,6 +21,15 @@ workflows:
     environment:
       <<: *flutter_env
       groups:
+        # 本番用のIDを入れる環境変数グループ（Step 9）。
+        #   RAKUTEN_AFFILIATE_ID
+        #   ADMOB_USE_PRODUCTION_IDS / ADMOB_BANNER_UNIT_ID_IOS / ADMOB_NATIVE_UNIT_ID_IOS
+        #   PRIVACY_POLICY_URL
+        #
+        # **Codemagic 側にこの名前のグループを作ってから、下の行を有効にすること。**
+        # 存在しないグループを参照するとビルドが始まらない。
+        # 有効にするまでは、アプリ側がテストIDや既定URLにフォールバックする。
+        # - rakikara_release
         # CERTIFICATE_PRIVATE_KEY を入れた環境変数グループ。
         # 配布証明書の秘密鍵。これが無いと証明書を保存できず、
         # "Cannot save Signing Certificates without certificate private key" で
@@ -65,8 +74,15 @@ workflows:
           xcode-project use-profiles
       - name: Build ipa
         script: |
+          # 本番IDは環境変数グループから差し込む。未設定なら空文字が渡り、
+          # アプリ側がテストIDや既定URLにフォールバックする。
           flutter build ipa --release \
             --build-number=$BUILD_NUMBER \
+            --dart-define=RAKUTEN_AFFILIATE_ID="$RAKUTEN_AFFILIATE_ID" \
+            --dart-define=ADMOB_USE_PRODUCTION_IDS="${ADMOB_USE_PRODUCTION_IDS:-false}" \
+            --dart-define=ADMOB_BANNER_UNIT_ID_IOS="$ADMOB_BANNER_UNIT_ID_IOS" \
+            --dart-define=ADMOB_NATIVE_UNIT_ID_IOS="$ADMOB_NATIVE_UNIT_ID_IOS" \
+            --dart-define=PRIVACY_POLICY_URL="${PRIVACY_POLICY_URL:-https://ichirou600-blip.github.io/body-color-diagnosis/privacy/}" \
             --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa

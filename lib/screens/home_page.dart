@@ -9,6 +9,7 @@ import '../logic/personal_color_judge.dart';
 import '../models/enums.dart';
 import '../models/master_models.dart';
 import '../models/user_profile.dart';
+import 'about_page.dart';
 import 'compatibility_page.dart';
 import 'diagnosis_page.dart';
 import 'kokkaku_result_page.dart';
@@ -35,6 +36,7 @@ class HomePage extends StatelessWidget {
     required this.profile,
     required this.onProfileChanged,
     this.fortuneSource = const LocalDailyFortuneSource(),
+    this.appVersion,
   });
 
   final MasterData masters;
@@ -43,6 +45,9 @@ class HomePage extends StatelessWidget {
 
   /// Step 5 時点では端末内の仮データ。Step 6 で Firestore 実装に差し替える。
   final DailyFortuneSource fortuneSource;
+
+  /// 「このアプリについて」に出すバージョン。取得できなければ null。
+  final String? appVersion;
 
   /// 質問 → 判定 → 保存 → 結果画面 の一連。PC・骨格で共用する。
   ///
@@ -143,7 +148,20 @@ class HomePage extends StatelessWidget {
     final diagnosed = profile.personalColor != null || profile.kokkaku != null;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('ラキカラ')),
+      appBar: AppBar(
+        title: const Text('ラキカラ'),
+        actions: [
+          IconButton(
+            tooltip: 'このアプリについて',
+            icon: const Icon(Icons.info_outline),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => AboutPage(version: appVersion),
+              ),
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: const BannerAdSlot(),
       body: GradientBackground(
         child: SafeArea(

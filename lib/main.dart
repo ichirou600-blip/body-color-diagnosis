@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'ads/ad_config.dart';
 import 'ads/ads_bootstrap.dart';
@@ -13,7 +16,19 @@ import 'theme/app_theme.dart';
 import 'widgets/soft_widgets.dart';
 
 void main() {
+  _registerBundledFontLicense();
   runApp(const RakikaraApp());
+}
+
+/// 同梱フォントのライセンスを「ライセンス」画面に出す。
+///
+/// M PLUS Rounded 1c は SIL Open Font License 1.1。**表示は義務**なので、
+/// フォントを差し替えるときはここも直すこと。
+void _registerBundledFontLicense() {
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('assets/fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(const ['M PLUS Rounded 1c'], license);
+  });
 }
 
 /// ラキカラのルートウィジェット。
@@ -24,6 +39,7 @@ class RakikaraApp extends StatelessWidget {
     this.profileRepository = const ProfileRepository(),
     this.fortuneSource,
     this.adConfig,
+    this.appVersion,
   });
 
   final MasterRepository masterRepository;
@@ -35,6 +51,9 @@ class RakikaraApp extends StatelessWidget {
   /// 省略時は広告SDKを初期化する。テストでは [AdConfig.disabled] を渡す。
   final AdConfig? adConfig;
 
+  /// 省略時は端末からバージョンを読む。テストでは固定値を渡す。
+  final String? appVersion;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,6 +64,7 @@ class RakikaraApp extends StatelessWidget {
         profileRepository: profileRepository,
         fortuneSource: fortuneSource,
         adConfig: adConfig,
+        appVersion: appVersion,
       ),
     );
   }
@@ -61,12 +81,14 @@ class AppRoot extends StatefulWidget {
     required this.profileRepository,
     this.fortuneSource,
     this.adConfig,
+    this.appVersion,
   });
 
   final MasterRepository masterRepository;
   final ProfileRepository profileRepository;
   final DailyFortuneSource? fortuneSource;
   final AdConfig? adConfig;
+  final String? appVersion;
 
   @override
   State<AppRoot> createState() => _AppRootState();
@@ -74,6 +96,7 @@ class AppRoot extends StatefulWidget {
 
 class _AppRootState extends State<AppRoot> {
   MasterData? _masters;
+  String? _version;
   DailyFortuneSource _fortuneSource = const LocalDailyFortuneSource();
   AdConfig _adConfig = AdConfig.disabled;
   UserProfile _profile = const UserProfile();
@@ -94,12 +117,14 @@ class _AppRootState extends State<AppRoot> {
       final fortuneSource =
           widget.fortuneSource ?? await createDailyFortuneSource();
       final adConfig = widget.adConfig ?? await initializeAds();
+      final version = widget.appVersion ?? await _readVersion();
       if (!mounted) return;
       setState(() {
         _masters = masters;
         _profile = profile;
         _fortuneSource = fortuneSource;
         _adConfig = adConfig;
+        _version = version;
         _error = null;
         _loading = false;
       });
@@ -109,6 +134,17 @@ class _AppRootState extends State<AppRoot> {
         _error = error;
         _loading = false;
       });
+    }
+  }
+
+  /// 表示用のバージョン。取得できなくてもアプリは動かせるので握りつぶす。
+  Future<String?> _readVersion() async {
+    try {
+      final info = await PackageInfo.fromPlatform();
+      return '${info.version} (${info.buildNumber})';
+    } catch (error) {
+      debugPrint('バージョンを取得できませんでした: $error');
+      return null;
     }
   }
 
@@ -173,6 +209,7 @@ class _AppRootState extends State<AppRoot> {
         profile: _profile,
         onProfileChanged: _updateProfile,
         fortuneSource: _fortuneSource,
+        appVersion: _version,
       ),
     );
   }

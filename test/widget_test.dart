@@ -47,6 +47,8 @@ void main() {
       // 広告SDKの初期化も FakeAsync 下では完了しないため無効にしておく。
       // 広告ウィジェットが何も描かないことは test/ads/ で確認している。
       adConfig: AdConfig.disabled,
+      // バージョン取得も端末の機能を使うので、テストでは固定値を渡す
+      appVersion: '1.0.0 (test)',
     );
   }
 
@@ -312,6 +314,17 @@ void main() {
     expect(find.text('相性診断'), findsOneWidget);
     // 誕生日未登録なので登録をうながす
     expect(find.textContaining('自分の誕生日を登録すると'), findsOneWidget);
+  });
+
+  testWidgets('ホームからこのアプリについてを開ける', (tester) async {
+    await pumpApp(tester);
+
+    await tester.tap(find.byTooltip('このアプリについて'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('このアプリについて'), findsWidgets);
+    expect(find.text('プライバシーポリシー'), findsOneWidget);
+    expect(find.textContaining('娯楽目的'), findsOneWidget);
   });
 
   testWidgets('マスタが壊れていればエラー表示になり、再試行できる', (tester) async {

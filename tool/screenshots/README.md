@@ -7,7 +7,8 @@
 flutter test tool/screenshots/screens_test.dart --update-goldens
 ```
 
-`tool/screenshots/shots/` に PNG が出力される。
+`tool/screenshots/shots/` に **1290×2796**（iPhone 6.9インチ）で出力される。
+このサイズは App Store の要件そのままで、Google Play の携帯電話用も満たす。
 
 - 同梱フォント（M PLUS Rounded 1c）とアイコンフォントを読み込んでから描画するので、
   実機に近い見た目になる

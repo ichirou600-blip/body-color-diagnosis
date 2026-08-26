@@ -13,6 +13,8 @@
 | [`docs/DATA_SCHEMA.md`](docs/DATA_SCHEMA.md) | `assets/` の静的JSONのキー名と検証ルール |
 | [`docs/STEP6_SETUP.md`](docs/STEP6_SETUP.md) | Firebase 接続と占い生成バッチのデプロイ手順 |
 | [`docs/STEP8_SETUP.md`](docs/STEP8_SETUP.md) | AdMob 登録と広告の本番ID差し替え手順 |
+| [`docs/STEP9_SETUP.md`](docs/STEP9_SETUP.md) | ポリシー公開・本番ID差し込み・ストア入力・審査提出 |
+| [`docs/STORE_LISTING.md`](docs/STORE_LISTING.md) | ストア掲載文面（ASO）と年齢レーティング回答 |
 | [`CLAUDE.md`](CLAUDE.md) | Claude Code 向けの作業ルール |
 
 ## 開発
@@ -49,7 +51,7 @@ Flutter 3.47.0（CI で固定）。
 | 6 Firebase接続＋Functionsバッチ | コード側完了。Firebase / Anthropic 側の設定待ち |
 | 7 相性診断 | 完了 |
 | 8 広告組込 | コード側完了。テストIDで動作中。本番IDは AdMob 登録後に差し替え |
-| 9 アフィリリンク・ポリシー・ストア素材・審査提出 | 未着手 |
+| 9 アフィリリンク・ポリシー・ストア素材・審査提出 | コード・文面は完了。アカウント操作とストア入力待ち |
 
 TestFlight での実機確認は完了。アイコンと画面デザインも刷新済み。
 
