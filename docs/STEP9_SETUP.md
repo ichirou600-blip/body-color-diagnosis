@@ -44,14 +44,30 @@ https://ichirou600-blip.github.io/body-color-diagnosis/privacy/
 
 ---
 
-## 2. 楽天アフィリエイトIDを取得する
+## 2. 楽天アフィリエイトIDを取得する ✅ 完了
 
-1. https://affiliate.rakuten.co.jp/ に楽天IDでログインして登録
-2. 発行された**アフィリエイトID**を控える
+登録済みの媒体:
 
-> 楽天のアフィリエイトコードはリンクの種類によって値が変わる。
-> 管理画面で実際に発行されるリンクと突き合わせて、
-> `https://hb.afl.rakuten.co.jp/hgc/【ここ】/?pc=...` の部分を使うこと。
+| 項目 | 値 |
+|---|---|
+| 運営サイトURL | `https://ichirou600-blip.github.io/body-color-diagnosis/` |
+| 順位 | 1位（登録サイトが1件のため） |
+| ジャンル | ファッション |
+
+取得したアフィリエイトID:
+
+```
+56db5618.bb4b3b73.56db5619.829c21e7
+```
+
+これを 5 で `RAKUTEN_AFFILIATE_ID` として Codemagic に登録する。
+アフィリエイトIDは発行されるリンクにそのまま載る公開値なので、秘匿は不要。
+
+> 楽天のアフィリエイトコードはリンクの種類によって値が変わることがある。
+> 上の値は管理画面で発行した実リンクの
+> `https://hb.afl.rakuten.co.jp/hgc/【ここ】/?pc=...` から抜き出したもの。
+> 公開後にレポートへ計上されない場合は、テキストリンクを1本発行して
+> 同じ位置の値を比べ、違っていたら差し替える。
 
 未取得のままでも、リンクは素の検索URLとして動く（収益が出ないだけ）。
 
@@ -85,7 +101,7 @@ Applications → body-color-diagnosis → **Environment variables** タブ
 
 | Variable name | 値 | Secure |
 |---|---|---|
-| `RAKUTEN_AFFILIATE_ID` | 2 で取得したID | 任意 |
+| `RAKUTEN_AFFILIATE_ID` | `56db5618.bb4b3b73.56db5619.829c21e7` | 不要 |
 | `ADMOB_USE_PRODUCTION_IDS` | `true` | 不要 |
 | `ADMOB_BANNER_UNIT_ID_IOS` | 3 のバナーID | 不要 |
 | `ADMOB_NATIVE_UNIT_ID_IOS` | 3 のネイティブID | 不要 |
