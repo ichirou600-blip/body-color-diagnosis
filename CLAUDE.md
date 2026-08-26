@@ -14,6 +14,7 @@
 - 現在のステップ: **Step 9（アフィリリンク・プライバシーポリシー・ストア素材・審査提出）**
   - TestFlight での実機確認は完了。デザイン刷新も反映済み
   - コード・文面は完了（`docs/STEP9_SETUP.md` / `docs/STORE_LISTING.md`）。残りはアカウント操作とストア入力
+  - プライバシーポリシーは GitHub Pages で公開済み: https://ichirou600-blip.github.io/body-color-diagnosis/privacy/
   - Step 6 はコード側完了。残りは Firebase / Anthropic のアカウント操作（`docs/STEP6_SETUP.md`）
   - Step 0 はコード側完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
   - Step 8 はコード側完了。テストIDで動作中。本番IDへの差し替えは `docs/STEP8_SETUP.md`

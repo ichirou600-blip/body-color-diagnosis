@@ -7,7 +7,17 @@
 
 ---
 
-## 1. プライバシーポリシーを公開する
+## 1. プライバシーポリシーを公開する ✅ 完了
+
+**公開済み。** 以下のURLで、ログインなしで開けることを実機で確認済み。
+
+```
+https://ichirou600-blip.github.io/body-color-diagnosis/privacy/
+```
+
+App Store Connect / Google Play の「プライバシーポリシーURL」にはこれを入力する。
+
+<details><summary>公開時の手順（記録用）</summary>
 
 文面は `docs/privacy/index.html` にある。そのまま公開できる1枚のHTML。
 
@@ -29,6 +39,8 @@ https://ichirou600-blip.github.io/body-color-diagnosis/privacy/
 
 公開できたら、**スマホのブラウザでログインせずに開けること**を確認する。
 審査ではここが実際に開かれる。
+
+</details>
 
 ---
 
@@ -143,7 +155,7 @@ flutter test tool/screenshots/screens_test.dart --update-goldens
 
 ## 提出前チェックリスト
 
-- [ ] プライバシーポリシーがログインなしで開ける
+- [x] プライバシーポリシーがログインなしで開ける
 - [ ] アプリ内の「このアプリについて」からポリシーが開ける
 - [ ] 広告に「Test Ad」が出ない
 - [ ] 占いが当日の内容になっている（Firebase 接続済みの場合）
