@@ -27,12 +27,11 @@
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
-        <!-- AdMob アプリID。現在は Google 公式のテスト用IDが入っている。
-             本番のIDに差し替えるのは Step 9。ユニットIDと違い
+        <!-- AdMob アプリID（本番）。ユニットIDと違い
              --dart-define では渡せないので、このファイルを直接書き換える。 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-4074648031071093~8566575053"/>
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

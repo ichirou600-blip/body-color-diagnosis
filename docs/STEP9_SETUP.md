@@ -73,12 +73,29 @@ https://ichirou600-blip.github.io/body-color-diagnosis/privacy/
 
 ---
 
-## 3. AdMob の本番IDを用意する
+## 3. AdMob の本番IDを用意する ✅ 完了（アカウント審査は待ち）
 
-`docs/STEP8_SETUP.md` を参照。控えるのは6つ。
+| 種類 | ID |
+|---|---|
+| iOS アプリID | `ca-app-pub-4074648031071093~4534112070` |
+| iOS バナー | `ca-app-pub-4074648031071093/8402923520` |
+| iOS ネイティブ | `ca-app-pub-4074648031071093/7262443693` |
+| Android アプリID | `ca-app-pub-4074648031071093~8566575053` |
+| Android バナー | `ca-app-pub-4074648031071093/8493538384` |
+| Android ネイティブ | `ca-app-pub-4074648031071093/9615048360` |
 
-- iOS / Android のアプリID → `Info.plist` と `AndroidManifest.xml` を直接書き換える
-- iOS / Android のバナー・ネイティブのユニットID → 下の 5 で差し込む
+- アプリID2つは `ios/Runner/Info.plist` と
+  `android/app/src/main/AndroidManifest.xml` に**反映済み**
+- ユニットID4つは下の 5 で Codemagic の環境変数に入れる
+
+> ⚠️ **AdMob アカウントはまだ承認されていない。**
+> お支払い方法（受取用の銀行口座）が未登録のため、
+> ホーム画面に「お支払いの設定が完了していません」が出ている。
+> 承認されるまで**本番広告は配信されない**（広告ウィジェットは高さ0で何も描かないので、
+> 表示崩れにはならない）。ストア審査提出はこの状態でも進められる。
+>
+> 登録場所は AdMob → お支払い → 設定カードの「設定を管理する」。
+> `payments.google.com/paymentsinfo`（個人の Google ウォレット）とは別物なので注意。
 
 ---
 
@@ -103,9 +120,11 @@ Applications → body-color-diagnosis → **Environment variables** タブ
 |---|---|---|
 | `RAKUTEN_AFFILIATE_ID` | `56db5618.bb4b3b73.56db5619.829c21e7` | 不要 |
 | `ADMOB_USE_PRODUCTION_IDS` | `true` | 不要 |
-| `ADMOB_BANNER_UNIT_ID_IOS` | 3 のバナーID | 不要 |
-| `ADMOB_NATIVE_UNIT_ID_IOS` | 3 のネイティブID | 不要 |
-| `PRIVACY_POLICY_URL` | 1 で公開したURL | 不要 |
+| `ADMOB_BANNER_UNIT_ID_IOS` | `ca-app-pub-4074648031071093/8402923520` | 不要 |
+| `ADMOB_NATIVE_UNIT_ID_IOS` | `ca-app-pub-4074648031071093/7262443693` | 不要 |
+| `ADMOB_BANNER_UNIT_ID_ANDROID` | `ca-app-pub-4074648031071093/8493538384` | 不要 |
+| `ADMOB_NATIVE_UNIT_ID_ANDROID` | `ca-app-pub-4074648031071093/9615048360` | 不要 |
+| `PRIVACY_POLICY_URL` | `https://ichirou600-blip.github.io/body-color-diagnosis/privacy/` | 不要 |
 
 Variable group はすべて **`rakikara_release`** にする。
 
@@ -116,6 +135,8 @@ Variable group はすべて **`rakikara_release`** にする。
 ```yaml
         # - rakikara_release   ← この行の「# 」を消す
 ```
+
+**iOS ワークフローと Android ワークフローの両方**にこの行がある。2か所とも外す。
 
 > **グループを作る前にコメントを外すとビルドが始まらない。**順番を守ること。
 
