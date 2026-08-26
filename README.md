@@ -8,7 +8,7 @@
 | ファイル | 内容 |
 |---|---|
 | [`docs/SPEC.md`](docs/SPEC.md) | 要件定義書・実装計画書 v1。**実装判断はすべてここに従う** |
-| [`docs/TESTFLIGHT_CHECKLIST.md`](docs/TESTFLIGHT_CHECKLIST.md) | **いまここ**: 実機で確認するまでの手順と確認項目 |
+| [`docs/TESTFLIGHT_CHECKLIST.md`](docs/TESTFLIGHT_CHECKLIST.md) | 実機で確認するまでの手順と確認項目（初回は完了済み） |
 | [`docs/STEP0_SETUP.md`](docs/STEP0_SETUP.md) | Codemagic → TestFlight を通すための Apple / Codemagic 側の手順 |
 | [`docs/DATA_SCHEMA.md`](docs/DATA_SCHEMA.md) | `assets/` の静的JSONのキー名と検証ルール |
 | [`docs/STEP6_SETUP.md`](docs/STEP6_SETUP.md) | Firebase 接続と占い生成バッチのデプロイ手順 |
@@ -49,5 +49,8 @@ Flutter 3.47.0（CI で固定）。
 | 6 Firebase接続＋Functionsバッチ | コード側完了。Firebase / Anthropic 側の設定待ち |
 | 7 相性診断 | 完了 |
 | 8 広告組込 | コード側完了。テストIDで動作中。本番IDは AdMob 登録後に差し替え |
+| 9 アフィリリンク・ポリシー・ストア素材・審査提出 | 未着手 |
+
+TestFlight での実機確認は完了。アイコンと画面デザインも刷新済み。
 
 静的コンテンツ（色マスタ40色・診断20問・タイプ属性・PC×骨格12通り・星座相性78件）は投入済み。

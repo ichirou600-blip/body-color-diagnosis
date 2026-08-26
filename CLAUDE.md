@@ -11,7 +11,8 @@
 
 - `docs/SPEC.md` §9 の実装ステップを **1ステップずつ** 進める。指示されていない先のステップを先回りして作らない
 - 各ステップは §9 の「完了条件」を満たしたら止めて報告する
-- 現在のステップ: **実機確認（`docs/TESTFLIGHT_CHECKLIST.md`）→ その後 Step 9**
+- 現在のステップ: **Step 9（アフィリリンク・プライバシーポリシー・ストア素材・審査提出）**
+  - TestFlight での実機確認は完了。デザイン刷新も反映済み
   - Step 6 はコード側完了。残りは Firebase / Anthropic のアカウント操作（`docs/STEP6_SETUP.md`）
   - Step 0 はコード側完了。残りは Apple / Codemagic のアカウント操作（`docs/STEP0_SETUP.md`）
   - Step 8 はコード側完了。テストIDで動作中。本番IDへの差し替えは `docs/STEP8_SETUP.md`
