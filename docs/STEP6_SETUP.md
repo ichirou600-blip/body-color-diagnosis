@@ -12,6 +12,20 @@
 
 設定が済むと自動的に Firestore から読むようになる。アプリ側のコード変更は不要。
 
+## Firebase プロジェクト
+
+| 項目 | 値 |
+|---|---|
+| プロジェクト名 | `rakikara` |
+| プロジェクトID | `rakikara-37acc` |
+| プロジェクト番号 | `325542503092` |
+| ロケーション | `asia-northeast1`（東京） |
+
+Google アナリティクス・Gemini in Firebase はどちらも**無効**で作成した。
+どちらもこのアプリでは使わない。
+
+---
+
 ## 1. Firebase プロジェクトを作る
 
 1. [Firebase コンソール](https://console.firebase.google.com/) でプロジェクトを作成
