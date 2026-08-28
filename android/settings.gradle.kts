@@ -21,6 +21,10 @@ plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
     id("com.android.application") version "9.1.0" apply false
     id("org.jetbrains.kotlin.android") version "2.4.0" apply false
+    // Firebase の設定ファイル（app/google-services.json）を
+    // ビルド時にリソースへ展開するプラグイン。これが無いと
+    // Firebase.initializeApp() が既定の設定を見つけられない。
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
 include(":app")

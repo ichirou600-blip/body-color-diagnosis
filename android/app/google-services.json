@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "325542503092",
+    "project_id": "rakikara-37acc",
+    "storage_bucket": "rakikara-37acc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325542503092:android:d15b025d42750391092de1",
+        "android_client_info": {
+          "package_name": "com.ichirou600.rakikara"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBer94OaxPeatjD84l0umr_mJDCebnTwnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

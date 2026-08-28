@@ -36,19 +36,41 @@ Google アナリティクス・Gemini in Firebase はどちらも**無効**で�
    - Cloud Functions は Blaze でないと使えない。無料枠が大きいので実費はほぼ出ないが、
      カード登録は必要
 
-## 2. アプリに Firebase をつなぐ
+## 2. アプリに Firebase をつなぐ ✅ 完了
 
-`flutterfire` CLI が設定ファイルの配置までやってくれる。
+`flutterfire configure` は使わず、**Firebase コンソールでアプリを登録して
+設定ファイルをダウンロードし、手で配置した**（CI 環境に flutterfire を入れずに済ませるため）。
 
-```sh
-dart pub global activate flutterfire_cli
-flutterfire configure --project=<プロジェクトID>
-```
+| ファイル | 置き場所 |
+|---|---|
+| `GoogleService-Info.plist` | `ios/Runner/` |
+| `google-services.json` | `android/app/` |
 
-- iOS の bundle ID / Android の applicationId は **`com.ichirou600.rakikara`**（`docs/SPEC.md` §1）
-- `ios/Runner/GoogleService-Info.plist` と `android/app/google-services.json` が生成される
-- **この2ファイルはリポジトリにコミットしてよい**（公開鍵情報であり、秘密鍵ではない）。
-  アクセス制御は `firestore.rules` 側で行う
+iOS / Android とも bundle ID・applicationId は **`com.ichirou600.rakikara`**（`docs/SPEC.md` §1）。
+
+**この2ファイルはリポジトリにコミットしてよい**（公開鍵情報であり、秘密鍵ではない）。
+アクセス制御は `firestore.rules` 側で行う。
+
+### 置くだけでは足りない2点
+
+ファイルを配置しただけでは読み込まれない。どちらも対応済み。
+
+1. **iOS: Xcode プロジェクトへの登録**
+   `ios/Runner.xcodeproj/project.pbxproj` の Copy Bundle Resources に
+   `GoogleService-Info.plist` を追加した。入っていないと `.app` に同梱されない。
+2. **Android: Gradle プラグインの適用**
+   `android/settings.gradle.kts` に `com.google.gms.google-services` を宣言し、
+   `android/app/build.gradle.kts` で適用した。これが `google-services.json` を
+   リソースに展開する。
+
+どちらも欠けると `Firebase.initializeApp()` が失敗し、
+**占いが端末内の仮データのまま（毎日同じ内容）になる**。落ちないぶん気づきにくいので、
+`test/firebase_config_test.dart` で機械的に見張っている。
+
+> `com.google.gms.google-services` のバージョンは `4.4.2` を指定した。
+> このリポジトリでは Android のビルドを実機で流せていないので、
+> **Codemagic の `Android - build check` が最初に通るまでは未検証。**
+> 解決できない場合はバージョンを上げ下げして合わせる。
 
 ## 3. Claude API キーを Secret Manager に入れる
 
